@@ -1,0 +1,16 @@
+name: SimpleTabList
+version: '${project.version}'
+main: de.sesosas.simpletablist.SimpleTabList
+authors: [ SESOSAS ]
+description: A TabList which is using LuckPerms Prefix and Suffixes
+depend: [LuckPerms]
+commands:
+  stl:
+    usage: /stl <reload>
+    description: Get plugin help or reload the config.
+  chat:
+    usage: /chat <staff/mute/unmute/clear> <enable/disable/PlayerName>
+    description: Chat command. Enable/Disable Staff chat. Mute/Unmute Player, Clear chat.
+  home:
+    usage: /home <add/remove/set/HomeName>
+    description: Add new Home. Remove an existing Home. Reset an existing Home. Teleport to an existing Home.
