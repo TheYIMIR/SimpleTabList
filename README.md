@@ -1,18 +1,13 @@
 # SimpleTabList
 This Spigot plugin is an open-source projekt. It's kinda also planned to show how easy it is to make simple plugins which normaly cost much money for quite the same content or being coded quite bad with many configs just for permissions and stuff.
 
-## Simple TabList
-This plugin is an alternative to traditional plugins, which are very good, but usually very complicated to set.
-
-You may know the plugins that have amazing features, but you need to change things in 8 configs and copy-paste them into your perm-system? With this plugin you don't need that anymore!
-
 ## Dependencys
 
 - LuckPerms
 
 ## Support
 
-- Discord
+- [Discord](https://discord.gg/J6wQn3bAkm)
 
 What does this plugin do
 This Plugin is showing prefix & suffixes in the TabList & Chat which you can provide by LuckPerm Groups.
