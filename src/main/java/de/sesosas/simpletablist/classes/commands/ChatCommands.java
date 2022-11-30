@@ -1,9 +1,8 @@
-package de.sesosas.simpletablist.commands;
+package de.sesosas.simpletablist.classes.commands;
 
 import de.sesosas.simpletablist.classes.CustomConfig;
-import de.sesosas.simpletablist.classes.Nametag;
-import de.sesosas.simpletablist.message.MessageHandler;
-import de.sesosas.simpletablist.permissions.PermissionsHandler;
+import de.sesosas.simpletablist.classes.handlers.MessageHandler;
+import de.sesosas.simpletablist.classes.handlers.PermissionsHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

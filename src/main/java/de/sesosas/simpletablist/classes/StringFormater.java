@@ -1,6 +1,7 @@
 package de.sesosas.simpletablist.classes;
 
 import de.sesosas.simpletablist.SimpleTabList;
+import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
@@ -26,9 +27,10 @@ public class StringFormater {
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits(2);
         if(text != null){
+            String con = PlaceholderAPI.setPlaceholders(player, text);
             if(SimpleTabList.getPlugin().config.getBoolean("Chat.Colors")){
-                return text
-                        .replace("%", "")
+                return con
+                        .replace("%", " percent ")
                         .replace("&", "§")
                         .replace(ph("player_name"), player.getDisplayName())
                         .replace(ph("player_health"), df.format(player.getPlayer().getHealth()))
@@ -39,8 +41,8 @@ public class StringFormater {
                         .replace(ph("player_gamemode"), player.getPlayer().getGameMode().toString());
             }
             else{
-                return text
-                        .replace("%", "")
+                return con
+                        .replace("%", " percent ")
                         .replace(ph("player_name"), player.getDisplayName())
                         .replace(ph("player_health"), df.format(player.getPlayer().getHealth()))
                         .replace(ph("player_food"), df.format(player.getPlayer().getFoodLevel()))

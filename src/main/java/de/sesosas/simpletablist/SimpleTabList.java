@@ -2,19 +2,26 @@ package de.sesosas.simpletablist;
 
 import de.sesosas.simpletablist.classes.TabHeadFoot;
 import de.sesosas.simpletablist.classes.TabName;
-import de.sesosas.simpletablist.commands.ChatCommands;
-import de.sesosas.simpletablist.commands.HomeCommand;
-import de.sesosas.simpletablist.message.MessageHandler;
+import de.sesosas.simpletablist.classes.handlers.CommandHandler;
+import de.sesosas.simpletablist.classes.handlers.IEventHandler;
+import de.sesosas.simpletablist.classes.handlers.UpdateHandler;
+import de.sesosas.simpletablist.classes.commands.ChatCommands;
+import de.sesosas.simpletablist.classes.commands.HomeCommand;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.event.EventBus;
+import net.luckperms.api.event.LuckPermsEvent;
 import net.luckperms.api.event.log.LogPublishEvent;
-import net.luckperms.api.node.types.PermissionNode;
+import net.luckperms.api.event.node.NodeAddEvent;
+import net.luckperms.api.event.user.UserDataRecalculateEvent;
+import net.luckperms.api.event.user.UserLoadEvent;
+import net.luckperms.api.event.user.track.UserDemoteEvent;
+import net.luckperms.api.event.user.track.UserPromoteEvent;
 import org.bstats.bukkit.Metrics;
-import org.bstats.charts.MultiLineChart;
 import org.bstats.charts.SingleLineChart;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -31,9 +38,11 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         plugin = this;
-        java.lang.String[] headerString = new java.lang.String[]{"This is a Header!", "This is Header line 2!"};
+
+        java.lang.String[] headerString = new java.lang.String[]{"This is a Header!", "Welcome %player_name%!"};
         java.lang.String[] footerString = new java.lang.String[] {"This is a Footer!", "This is Footer line 2!"};
         config.addDefault("PlaceholderInfo", "Placeholder using PlaceholderAPI [Example: \"Welcome {player_name} on this Server!\"]");
+        config.addDefault("Tab.Names.Use", true);
         config.addDefault("Tab.Header.Use", true);
         config.addDefault("Tab.Header.Content", headerString);
         config.addDefault("Tab.Footer.Use", true);
@@ -53,30 +62,24 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
         config.options().copyDefaults(true);
         saveConfig();
 
-        /*
+
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
         if (provider != null) {
             LuckPerms luckPerms = provider.getProvider();
             EventBus eventBus = luckPerms.getEventBus();
 
-            eventBus.subscribe(plugin, LogPublishEvent.class, e -> {
-                TabName.Update();
-                TabHeadFoot.Update();
-            });
+            eventBus.subscribe(this.plugin, NodeAddEvent.class, this::onNodeAddEvent);
         }
-        */
 
         if(config.getBoolean("bstats.Use")){
             int id = 15221;
             Metrics metrics = new Metrics(this, id);
-            metrics.addCustomChart(new SingleLineChart("servers", () -> 1));
-            metrics.addCustomChart(new SingleLineChart("players", () -> Bukkit.getOnlinePlayers().size()));
             metrics.addCustomChart(new SingleLineChart("banned", () -> Bukkit.getBannedPlayers().size()));
         }
 
-        new UpdateChecker(this, 101989).getVersion(version -> {
+        new UpdateHandler(this, 101989).getVersion(version -> {
             if (this.getDescription().getVersion().equals(version)) {
-                getLogger().info("There is not a new update available.");
+                getLogger().info("There is no new update available.");
             } else {
                 getLogger().info("There is a new update available.");
             }
@@ -87,7 +90,6 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
             @Override
             public void run() {
                 TabHeadFoot.Update();
-                TabName.Update();
             }
         }.runTaskTimer(this, 0, 20L);
 
@@ -98,6 +100,7 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
         System.out.println("Simple TabList has started!");
     }
 
-
-
+    private <T extends LuckPermsEvent> void onNodeAddEvent(T t) {
+        TabName.Update();
+    }
 }

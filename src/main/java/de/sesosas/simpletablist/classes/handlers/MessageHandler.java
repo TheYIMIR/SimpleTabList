@@ -1,4 +1,4 @@
-package de.sesosas.simpletablist.message;
+package de.sesosas.simpletablist.classes.handlers;
 
 import de.sesosas.simpletablist.SimpleTabList;
 import de.sesosas.simpletablist.classes.Nametag;

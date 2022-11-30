@@ -1,17 +1,10 @@
-package de.sesosas.simpletablist;
+package de.sesosas.simpletablist.classes.handlers;
 
-import de.sesosas.simpletablist.classes.CustomConfig;
-import de.sesosas.simpletablist.commands.ChatCommands;
-import de.sesosas.simpletablist.commands.HomeCommand;
-import de.sesosas.simpletablist.commands.ReloadCommand;
-import de.sesosas.simpletablist.permissions.PermissionsHandler;
-import de.sesosas.simpletablist.message.MessageHandler;
-import org.bukkit.Bukkit;
+import de.sesosas.simpletablist.classes.commands.ReloadCommand;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;

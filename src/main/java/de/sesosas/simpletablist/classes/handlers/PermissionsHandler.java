@@ -1,4 +1,4 @@
-package de.sesosas.simpletablist.permissions;
+package de.sesosas.simpletablist.classes.handlers;
 
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.cacheddata.CachedMetaData;

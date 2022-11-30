@@ -1,8 +1,7 @@
-package de.sesosas.simpletablist;
+package de.sesosas.simpletablist.classes.handlers;
 
+import de.sesosas.simpletablist.SimpleTabList;
 import de.sesosas.simpletablist.classes.*;
-import de.sesosas.simpletablist.message.MessageHandler;
-import de.sesosas.simpletablist.permissions.PermissionsHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -12,17 +11,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.scheduler.BukkitTask;
 
 public class IEventHandler implements Listener {
 
     @EventHandler
     public void OnPlayerJoin(PlayerJoinEvent event){
-        TabHeadFoot.Update();
         TabName.Update();
-        Nametag.luckpermsName(event.getPlayer());
         if(SimpleTabList.getPlugin().config.getBoolean("Event.Use")){
-            new UpdateChecker(SimpleTabList.getPlugin(), 101989).getVersion(version -> {
+            new UpdateHandler(SimpleTabList.getPlugin(), 101989).getVersion(version -> {
                 if (!SimpleTabList.getPlugin().getDescription().getVersion().equals(version)) {
                     if(event.getPlayer().isOp()){
                         MessageHandler.Send(event.getPlayer(), ChatColor.AQUA + "There is a new update available.");
@@ -43,8 +39,6 @@ public class IEventHandler implements Listener {
 
     @EventHandler
     public void OnPlayerQuit(PlayerQuitEvent event){
-        TabHeadFoot.Update();
-        TabName.Update();
         if(SimpleTabList.getPlugin().config.getBoolean("Event.Use")){
             if(SimpleTabList.getPlugin().config.getBoolean("Plugin.ActionbarMessage")){
                 MessageHandler.Send(event.getPlayer(), SimpleTabList.getPlugin().config.getString("Event.QuitMessage"));

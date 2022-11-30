@@ -9,6 +9,7 @@ import java.util.Objects;
 public class TabHeadFoot {
     public static void Update(){
         try{
+
             for (Player player : Bukkit.getOnlinePlayers()) {
 
                 if(SimpleTabList.getPlugin().config.getBoolean("Tab.Header.Use")){
@@ -36,11 +37,15 @@ public class TabHeadFoot {
                         player.setPlayerListFooter(StringFormater.Get(footerString, player));
                     }
                 }
+
             }
+
         }
         catch (Exception e){
+
             System.out.println("Found an error at Header or Footer config section! Please make sure there are lists with content!");
             System.out.println(e);
+
         }
     }
 }
