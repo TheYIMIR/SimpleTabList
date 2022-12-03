@@ -1,21 +1,15 @@
 package de.sesosas.simpletablist;
 
-import de.sesosas.simpletablist.classes.TabHeadFoot;
-import de.sesosas.simpletablist.classes.TabName;
 import de.sesosas.simpletablist.classes.handlers.CommandHandler;
 import de.sesosas.simpletablist.classes.handlers.IEventHandler;
+import de.sesosas.simpletablist.classes.handlers.TabHandler;
 import de.sesosas.simpletablist.classes.handlers.UpdateHandler;
 import de.sesosas.simpletablist.classes.commands.ChatCommands;
 import de.sesosas.simpletablist.classes.commands.HomeCommand;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.event.EventBus;
 import net.luckperms.api.event.LuckPermsEvent;
-import net.luckperms.api.event.log.LogPublishEvent;
 import net.luckperms.api.event.node.NodeAddEvent;
-import net.luckperms.api.event.user.UserDataRecalculateEvent;
-import net.luckperms.api.event.user.UserLoadEvent;
-import net.luckperms.api.event.user.track.UserDemoteEvent;
-import net.luckperms.api.event.user.track.UserPromoteEvent;
 import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SingleLineChart;
 import org.bukkit.Bukkit;
@@ -41,7 +35,10 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
 
         java.lang.String[] headerString = new java.lang.String[]{"This is a Header!", "Welcome %player_name%!"};
         java.lang.String[] footerString = new java.lang.String[] {"This is a Footer!", "This is Footer line 2!"};
-        config.addDefault("PlaceholderInfo", "Placeholder using PlaceholderAPI [Example: \"Welcome {player_name} on this Server!\"]");
+
+        java.lang.String[] bannedWords = new java.lang.String[] {"bastard", "ass"};
+        java.lang.String[] whitelistedLinks = new java.lang.String[] { "http://discord.gg/invite", "https://your-website" };
+
         config.addDefault("Tab.Names.Use", true);
         config.addDefault("Tab.Header.Use", true);
         config.addDefault("Tab.Header.Content", headerString);
@@ -53,6 +50,8 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
         config.addDefault("Chat.Use", true);
         config.addDefault("Chat.Prefix", "§f[§cSTL§f]");
         config.addDefault("Chat.Separator", " >> ");
+        config.addDefault("Chat.Moderation.WordBlacklist", bannedWords);
+        config.addDefault("Chat.Moderation.LinkWhitelist", whitelistedLinks);
         config.addDefault("Chat.Colors", true);
         config.addDefault("Homes.Use", true);
         config.addDefault("Homes.Amount", 5);
@@ -89,7 +88,7 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
 
             @Override
             public void run() {
-                TabHeadFoot.Update();
+                TabHandler.UpdateTab();
             }
         }.runTaskTimer(this, 0, 20L);
 
@@ -101,6 +100,6 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
     }
 
     private <T extends LuckPermsEvent> void onNodeAddEvent(T t) {
-        TabName.Update();
+        TabHandler.UpdateName();
     }
 }

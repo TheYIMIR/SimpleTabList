@@ -2,9 +2,8 @@ package de.sesosas.simpletablist.classes.commands;
 
 import de.sesosas.simpletablist.classes.handlers.PermissionsHandler;
 import de.sesosas.simpletablist.SimpleTabList;
-import de.sesosas.simpletablist.classes.TabHeadFoot;
-import de.sesosas.simpletablist.classes.TabName;
 import de.sesosas.simpletablist.classes.handlers.MessageHandler;
+import de.sesosas.simpletablist.classes.handlers.TabHandler;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -21,11 +20,12 @@ public class ReloadCommand {
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
             SimpleTabList.getPlugin().config = cfg;
 
-            TabHeadFoot.Update();
-            TabName.Update();
+            TabHandler.UpdateTab();
+            TabHandler.UpdateName();
 
             String text = "Successfully reloaded the Config!";
             MessageHandler.Send(player, ChatColor.AQUA + text);
+
         }
         else{
             String text = "You are not allowed to use this command!";

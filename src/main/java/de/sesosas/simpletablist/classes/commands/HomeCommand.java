@@ -1,6 +1,7 @@
 package de.sesosas.simpletablist.classes.commands;
 
 import de.sesosas.simpletablist.SimpleTabList;
+import de.sesosas.simpletablist.classes.CurrentConfig;
 import de.sesosas.simpletablist.classes.CustomConfig;
 import de.sesosas.simpletablist.classes.handlers.MessageHandler;
 import de.sesosas.simpletablist.classes.handlers.PermissionsHandler;
@@ -138,7 +139,9 @@ public class HomeCommand implements TabExecutor {
                         }
                     }
                 }
-
+                else{
+                    MessageHandler.Send(player, ChatColor.YELLOW + "This command is currently disabled!");
+                }
             }
         }
         catch (Exception e){
@@ -150,7 +153,7 @@ public class HomeCommand implements TabExecutor {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         Player player = (Player) sender;
-        if(SimpleTabList.getPlugin().config.getBoolean("Homes.Use")){
+        if(CurrentConfig.getBoolean("Homes.Use")){
             if(args.length == 1){
                 List<String> arguments = new ArrayList<>();
                 CustomConfig.setup(player);
@@ -159,7 +162,7 @@ public class HomeCommand implements TabExecutor {
                     arguments.add("add");
                     arguments.add("remove");
                     arguments.add("set");
-                    for(int i = 1; i <= SimpleTabList.getPlugin().config.getInt("Homes.Amount"); i++){
+                    for(int i = 1; i <= CurrentConfig.getInt("Homes.Amount"); i++){
                         if(con.get("Homes."+i) != null){
                             if(!con.getString("Homes."+i+".Name").equalsIgnoreCase("Deleted")){
                                 arguments.add(con.getString("Homes."+i+".Name"));
@@ -171,11 +174,11 @@ public class HomeCommand implements TabExecutor {
             }
             if(args.length >= 2){
                 if(args[0].equalsIgnoreCase("remove")){
-                    if(SimpleTabList.getPlugin().config.getBoolean("Homes.Use")){
+                    if(CurrentConfig.getBoolean("Homes.Use")){
                         CustomConfig.setup(player);
                         FileConfiguration con = CustomConfig.get();
                         List<String> arguments = new ArrayList<>();
-                        for(int i = 1; i <= SimpleTabList.getPlugin().config.getInt("Homes.Amount"); i++){
+                        for(int i = 1; i <= CurrentConfig.getInt("Homes.Amount"); i++){
                             if(con.get("Homes."+i) != null){
                                 if(!con.getString("Homes."+i+".Name").equalsIgnoreCase("Deleted")){
                                     arguments.add(con.getString("Homes."+i+".Name"));
@@ -189,11 +192,11 @@ public class HomeCommand implements TabExecutor {
                     }
                 }
                 if(args[0].equalsIgnoreCase("set")){
-                    if(SimpleTabList.getPlugin().config.getBoolean("Homes.Use")){
+                    if(CurrentConfig.getBoolean("Homes.Use")){
                         CustomConfig.setup(player);
                         FileConfiguration con = CustomConfig.get();
                         List<String> arguments = new ArrayList<>();
-                        for(int i = 1; i <= SimpleTabList.getPlugin().config.getInt("Homes.Amount"); i++){
+                        for(int i = 1; i <= CurrentConfig.getInt("Homes.Amount"); i++){
                             if(con.get("Homes."+i) != null){
                                 if(!con.getString("Homes."+i+".Name").equalsIgnoreCase("Deleted")){
                                     arguments.add(con.getString("Homes."+i+".Name"));
@@ -211,7 +214,7 @@ public class HomeCommand implements TabExecutor {
                     CustomConfig.setup(player);
                     FileConfiguration con = CustomConfig.get();
                     if(PermissionsHandler.hasPermission(player, "stl.home.add")){
-                        for(int i = 1; i <= SimpleTabList.getPlugin().config.getInt("Homes.Amount"); i++){
+                        for(int i = 1; i <= CurrentConfig.getInt("Homes.Amount"); i++){
                             if(con.get("Homes."+i) != null){
                                 if(!con.getString("Homes."+i+".Name").equalsIgnoreCase("Deleted")){
                                     arguments.add(con.getString("Homes."+i+".Name"));

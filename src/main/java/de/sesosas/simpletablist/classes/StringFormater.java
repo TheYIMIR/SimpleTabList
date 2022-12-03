@@ -13,13 +13,14 @@ public class StringFormater {
     }
 
     public static String Get(String text){
-        if(SimpleTabList.getPlugin().config.getBoolean("Chat.Colors")){
+        if(CurrentConfig.getBoolean("Chat.Colors")){
             return text
-                    .replace("%", "")
+                    .replace("%", " percent ")
                     .replace("&", "§");
         }
         else{
-            return text;
+            return text
+                    .replace("%", " percent ");
         }
     }
 
@@ -28,7 +29,7 @@ public class StringFormater {
         df.setMaximumFractionDigits(2);
         if(text != null){
             String con = PlaceholderAPI.setPlaceholders(player, text);
-            if(SimpleTabList.getPlugin().config.getBoolean("Chat.Colors")){
+            if(CurrentConfig.getBoolean("Chat.Colors")){
                 return con
                         .replace("%", " percent ")
                         .replace("&", "§")

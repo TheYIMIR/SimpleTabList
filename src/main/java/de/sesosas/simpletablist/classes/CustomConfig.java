@@ -28,6 +28,20 @@ public class CustomConfig {
         customFile = YamlConfiguration.loadConfiguration(file);
     }
 
+    public static void setup(String path){
+
+
+        file = new File(Bukkit.getServer().getPluginManager().getPlugin("SimpleTabList").getDataFolder(), path);
+        if (!file.exists()){
+            try{
+                file.createNewFile();
+            }catch (IOException e){
+                //owww
+            }
+        }
+        customFile = YamlConfiguration.loadConfiguration(file);
+    }
+
     public static FileConfiguration get(){
         return customFile;
     }

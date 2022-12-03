@@ -1,5 +1,6 @@
 package de.sesosas.simpletablist.classes.commands;
 
+import de.sesosas.simpletablist.classes.CurrentConfig;
 import de.sesosas.simpletablist.classes.CustomConfig;
 import de.sesosas.simpletablist.classes.handlers.MessageHandler;
 import de.sesosas.simpletablist.classes.handlers.PermissionsHandler;
@@ -22,25 +23,30 @@ public class ChatCommands implements TabExecutor {
         try{
             if(sender instanceof Player){
                 Player player = ((Player) sender).getPlayer();
-                if(args.length >= 1){
-                    if(args[0].equalsIgnoreCase("clear")){
-                        ClearChat(player, args);
-                    }
-                    else if(args[0].equalsIgnoreCase("staff")){
-                        StaffChat(player, args);
-                    }
-                    else if(args[0].equalsIgnoreCase("mute")){
-                        MutePlayer(player, args);
-                    }
-                    else if(args[0].equalsIgnoreCase("unmute")){
-                        UnmutePlayer(player, args);
+                if(CurrentConfig.getBoolean("Chat.Use")){
+                    if(args.length >= 1){
+                        if(args[0].equalsIgnoreCase("clear")){
+                            ClearChat(player, args);
+                        }
+                        else if(args[0].equalsIgnoreCase("staff")){
+                            StaffChat(player, args);
+                        }
+                        else if(args[0].equalsIgnoreCase("mute")){
+                            MutePlayer(player, args);
+                        }
+                        else if(args[0].equalsIgnoreCase("unmute")){
+                            UnmutePlayer(player, args);
+                        }
+                        else{
+                            MessageHandler.Send(player, ChatColor.DARK_RED + "This command doesn't exist!");
+                        }
                     }
                     else{
-                        MessageHandler.Send(player, ChatColor.DARK_RED + "This command doesn't exist!");
+                        MessageHandler.Send(player, ChatColor.DARK_RED + "You need to provide <clear/staff>!");
                     }
                 }
                 else{
-                    MessageHandler.Send(player, ChatColor.DARK_RED + "You need to provide <clear/staff>!");
+                    MessageHandler.Send(player, ChatColor.YELLOW + "This command is currently disabled!");
                 }
             }
             else{

@@ -16,22 +16,22 @@ public class IEventHandler implements Listener {
 
     @EventHandler
     public void OnPlayerJoin(PlayerJoinEvent event){
-        TabName.Update();
-        if(SimpleTabList.getPlugin().config.getBoolean("Event.Use")){
+        TabHandler.UpdateName();
+        if(CurrentConfig.getBoolean("Event.Use")){
             new UpdateHandler(SimpleTabList.getPlugin(), 101989).getVersion(version -> {
-                if (!SimpleTabList.getPlugin().getDescription().getVersion().equals(version)) {
+                if (Float.parseFloat(SimpleTabList.getPlugin().getDescription().getVersion()) < Float.parseFloat(version)) {
                     if(event.getPlayer().isOp()){
                         MessageHandler.Send(event.getPlayer(), ChatColor.AQUA + "There is a new update available.");
                     }
                 }
             });
 
-            if(SimpleTabList.getPlugin().config.getBoolean("Plugin.ActionbarMessage")){
-                MessageHandler.Send(event.getPlayer(), SimpleTabList.getPlugin().config.getString("Event.JoinMessage"));
+            if(CurrentConfig.getBoolean("Plugin.ActionbarMessage")){
+                MessageHandler.Send(event.getPlayer(), CurrentConfig.getString("Event.JoinMessage"));
                 event.setJoinMessage("");
             }
             else{
-                String jm = StringFormater.Get(SimpleTabList.getPlugin().config.getString("Event.JoinMessage"), event.getPlayer());
+                String jm = StringFormater.Get(CurrentConfig.getString("Event.JoinMessage"), event.getPlayer());
                 event.setJoinMessage(jm);
             }
         }
@@ -39,13 +39,13 @@ public class IEventHandler implements Listener {
 
     @EventHandler
     public void OnPlayerQuit(PlayerQuitEvent event){
-        if(SimpleTabList.getPlugin().config.getBoolean("Event.Use")){
-            if(SimpleTabList.getPlugin().config.getBoolean("Plugin.ActionbarMessage")){
-                MessageHandler.Send(event.getPlayer(), SimpleTabList.getPlugin().config.getString("Event.QuitMessage"));
+        if(CurrentConfig.getBoolean("Event.Use")){
+            if(CurrentConfig.getBoolean("Plugin.ActionbarMessage")){
+                MessageHandler.Send(event.getPlayer(), CurrentConfig.getString("Event.QuitMessage"));
                 event.setQuitMessage("");
             }
             else{
-                String qm = StringFormater.Get(SimpleTabList.getPlugin().config.getString("Event.QuitMessage"), event.getPlayer());
+                String qm = StringFormater.Get(CurrentConfig.getString("Event.QuitMessage"), event.getPlayer());
                 event.setQuitMessage(qm);
             }
         }
@@ -53,7 +53,7 @@ public class IEventHandler implements Listener {
 
     @EventHandler
     public void onPlayerChat(AsyncPlayerChatEvent event) {
-        if(SimpleTabList.getPlugin().config.getBoolean("Chat.Use")){
+        if(CurrentConfig.getBoolean("Chat.Use")){
             String message = event.getMessage();
             String nametag = event.getPlayer().getDisplayName();
 
@@ -64,7 +64,7 @@ public class IEventHandler implements Listener {
                 if(con.getBoolean("Chat.Staff")){
                     event.setCancelled(true);
                     for(Player player : Bukkit.getOnlinePlayers()){
-                        player.sendMessage(SimpleTabList.getPlugin().config.getString("Chat.Prefix") + " | Staff | " + nametag + StringFormater.Get(SimpleTabList.getPlugin().config.getString("Chat.Separator"), event.getPlayer()) + StringFormater.Get(message, event.getPlayer()));
+                        player.sendMessage(CurrentConfig.getString("Chat.Prefix") + " | Staff | " + nametag + StringFormater.Get(CurrentConfig.getString("Chat.Separator"), event.getPlayer()) + StringFormater.Get(message, event.getPlayer()));
                     }
                 }
                 else{
@@ -74,7 +74,7 @@ public class IEventHandler implements Listener {
                     }
                     else{
                         event.setCancelled(false);
-                        event.setFormat(nametag + StringFormater.Get(SimpleTabList.getPlugin().config.getString("Chat.Separator"), event.getPlayer()) + StringFormater.Get(message, event.getPlayer()));
+                        event.setFormat(nametag + StringFormater.Get(CurrentConfig.getString("Chat.Separator"), event.getPlayer()) + StringFormater.Get(message, event.getPlayer()));
                     }
                 }
             }
@@ -85,7 +85,7 @@ public class IEventHandler implements Listener {
                 }
                 else{
                     event.setCancelled(false);
-                    event.setFormat(nametag + StringFormater.Get(SimpleTabList.getPlugin().config.getString("Chat.Separator"), event.getPlayer()) + StringFormater.Get(message, event.getPlayer()));
+                    event.setFormat(nametag + StringFormater.Get(CurrentConfig.getString("Chat.Separator"), event.getPlayer()) + StringFormater.Get(MessageHandler.CheckBannedWords(MessageHandler.CheckLinks(message)), event.getPlayer()));
                 }
             }
         }

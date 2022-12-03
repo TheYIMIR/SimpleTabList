@@ -8,7 +8,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 
 public class Nametag {
 
-    public static void luckpermsName(Player player){
+    public static void setDisplayname(Player player){
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
         if (provider != null) {
             LuckPerms api = provider.getProvider();
