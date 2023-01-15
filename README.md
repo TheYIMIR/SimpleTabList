@@ -3,7 +3,8 @@ This Spigot plugin is an open-source projekt. It's kinda also planned to show ho
 
 ## Dependencys
 
-- LuckPerms
+- [LuckPerms](https://luckperms.net/download)
+- [PlaceholderAPI](https://www.spigotmc.org/resources/placeholderapi.6245/)
 
 ## Support
 
@@ -133,5 +134,3 @@ For any suggestions or questions, you can add me on Discord YIMIR#3223
 (I am from Germany, so if you are also from Germany, you can write me in German).
 
 For this plugin updates will only come with long times in between.
-
-If a new resource is created for it, I will announce it here.
