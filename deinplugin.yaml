@@ -11,6 +11,7 @@ download:
 supportedPlatforms:
   - spigot
   - paper
+  - purpur
 supportedGameVersions:
   - 1.19
   - 1.18
