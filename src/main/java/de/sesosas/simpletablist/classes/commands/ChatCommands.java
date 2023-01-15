@@ -102,15 +102,15 @@ public class ChatCommands implements TabExecutor {
             if(PermissionsHandler.hasPermission(player, "stl.chat.staff")){
                 Player target = Bukkit.getPlayer(args[1]);
                 if(target != null){
-                    CustomConfig.setup(target);
-                    FileConfiguration con = CustomConfig.get();
+                    CustomConfig cf = new CustomConfig().setup(target);
+                    FileConfiguration con = cf.get();
                     if(con.getBoolean("Chat.Muted")){
                         MessageHandler.Send(player, ChatColor.DARK_RED + "The Player " +target.getDisplayName()+ ChatColor.DARK_RED +" is already muted!");
                     }
                     else{
                         con.set("Chat.Muted", true);
-                        CustomConfig.save();
-                        CustomConfig.reload();
+                        cf.save();
+                        cf.reload();
                         MessageHandler.Send(target, ChatColor.YELLOW + "You got muted!");
                         MessageHandler.Send(player, target.getDisplayName() + ChatColor.YELLOW + " got muted now!");
                     }
@@ -127,12 +127,12 @@ public class ChatCommands implements TabExecutor {
             if(PermissionsHandler.hasPermission(player, "stl.chat.staff")){
                 Player target = Bukkit.getPlayer(args[1]);
                 if(target != null){
-                    CustomConfig.setup(target);
-                    FileConfiguration con = CustomConfig.get();
+                    CustomConfig cf = new CustomConfig().setup(target);
+                    FileConfiguration con = cf.get();
                     if(con.getBoolean("Chat.Muted")){
                         con.set("Chat.Muted", false);
-                        CustomConfig.save();
-                        CustomConfig.reload();
+                        cf.save();
+                        cf.reload();
                         MessageHandler.Send(target, ChatColor.YELLOW + "You got unmuted!");
                         MessageHandler.Send(player, target.getDisplayName() + ChatColor.YELLOW + " got unmuted now!");
                     }
@@ -180,24 +180,24 @@ public class ChatCommands implements TabExecutor {
     private static void StaffChat(Player player, String[] args) {
         if(args.length == 2){
             if(PermissionsHandler.hasPermission(player, "stl.chat.staff")){
-                CustomConfig.setup(player);
-                FileConfiguration con = CustomConfig.get();
+                CustomConfig cf = new CustomConfig().setup(player);
+                FileConfiguration con = cf.get();
                 if(args[1].equalsIgnoreCase("enable")){
                     if(con.getBoolean("Chat.Staff")){
                         MessageHandler.Send(player, ChatColor.DARK_RED + "Staff chat already enabled!");
                     }
                     else{
                         con.set("Chat.Staff", true);
-                        CustomConfig.save();
-                        CustomConfig.reload();
+                        cf.save();
+                        cf.reload();
                         MessageHandler.Send(player, ChatColor.YELLOW + "Staff chat is now enabled!");
                     }
                 }
                 else if(args[1].equalsIgnoreCase("disable")){
                     if(con.getBoolean("Chat.Staff")){
                         con.set("Chat.Staff", false);
-                        CustomConfig.save();
-                        CustomConfig.reload();
+                        cf.save();
+                        cf.reload();
                         MessageHandler.Send(player, ChatColor.YELLOW + "Staff chat is now disabled!");
                     }
                     else{

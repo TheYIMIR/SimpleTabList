@@ -1,17 +1,10 @@
 package de.sesosas.simpletablist.classes.handlers;
 
-import de.sesosas.simpletablist.SimpleTabList;
 import de.sesosas.simpletablist.classes.CurrentConfig;
-import de.sesosas.simpletablist.classes.CustomConfig;
-import de.sesosas.simpletablist.classes.Nametag;
 import de.sesosas.simpletablist.classes.StringFormater;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
 
 public class MessageHandler {
 

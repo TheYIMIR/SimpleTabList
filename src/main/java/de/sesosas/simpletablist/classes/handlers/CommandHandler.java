@@ -35,7 +35,6 @@ public class CommandHandler implements TabExecutor {
                 Player player = (Player) sender;
                 MessageHandler.Send(player, ChatColor.AQUA + "Commands:"
                         + "\n - /chat <args>"
-                        + "\n - /home <args>"
                         + "\n - /stl reload");
             }
             else{

@@ -11,6 +11,3 @@ commands:
   chat:
     usage: /chat <staff/mute/unmute/clear> <enable/disable/PlayerName>
     description: Chat command. Enable/Disable Staff chat. Mute/Unmute Player, Clear chat.
-  home:
-    usage: /home <add/remove/set/HomeName>
-    description: Add new Home. Remove an existing Home. Reset an existing Home. Teleport to an existing Home.

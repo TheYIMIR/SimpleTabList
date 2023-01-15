@@ -1,5 +1,6 @@
 package de.sesosas.simpletablist.classes;
 
+import de.sesosas.simpletablist.SimpleTabList;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -10,51 +11,108 @@ import java.io.File;
 import java.io.IOException;
 
 public class CustomConfig {
-    private static File file;
-    private static FileConfiguration customFile;
+    public File file;
+    public FileConfiguration customFile;
 
-    //Finds or generates the custom config file
-    public static void setup(Player player){
-
-
-        file = new File(Bukkit.getServer().getPluginManager().getPlugin("SimpleTabList").getDataFolder(), "users/"+player.getUniqueId()+".yml");
-        if (!file.exists()){
+    public CustomConfig setup(Player player){
+        this.file = new File(Bukkit.getServer().getPluginManager().getPlugin(SimpleTabList.getPlugin().getName()).getDataFolder(), "users/"+player.getUniqueId()+".yml");
+        if (!this.file.exists()){
             try{
-                file.createNewFile();
+                this.file.createNewFile();
             }catch (IOException e){
                 //owww
             }
         }
-        customFile = YamlConfiguration.loadConfiguration(file);
+        this.customFile = YamlConfiguration.loadConfiguration(this.file);
+        return this;
     }
 
-    public static void setup(String path){
-
-
-        file = new File(Bukkit.getServer().getPluginManager().getPlugin("SimpleTabList").getDataFolder(), path);
-        if (!file.exists()){
+    public CustomConfig setup(String path){
+        this.file = new File(Bukkit.getServer().getPluginManager().getPlugin(SimpleTabList.getPlugin().getName()).getDataFolder(), path + ".yml");
+        if (!this.file.exists()){
             try{
-                file.createNewFile();
+                this.file.createNewFile();
             }catch (IOException e){
                 //owww
             }
         }
-        customFile = YamlConfiguration.loadConfiguration(file);
+        this.customFile = YamlConfiguration.loadConfiguration(this.file);
+        return this;
     }
 
-    public static FileConfiguration get(){
-        return customFile;
+    public FileConfiguration get(String path){
+        this.file = new File(Bukkit.getServer().getPluginManager().getPlugin(SimpleTabList.getPlugin().getName()).getDataFolder(), path + ".yml");
+        if (!this.file.exists()){
+            try{
+                this.file.createNewFile();
+            }catch (IOException e){
+                //owww
+            }
+        }
+        this.customFile = YamlConfiguration.loadConfiguration(this.file);
+        return this.customFile;
     }
 
-    public static void save(){
+    public FileConfiguration get(Player player){
+        this.file = new File(Bukkit.getServer().getPluginManager().getPlugin(SimpleTabList.getPlugin().getName()).getDataFolder(), "users/"+player.getUniqueId()+".yml");
+        if (!this.file.exists()){
+            try{
+                this.file.createNewFile();
+            }catch (IOException e){
+                //owww
+            }
+        }
+        this.customFile = YamlConfiguration.loadConfiguration(this.file);
+        return this.customFile;
+    }
+
+    public FileConfiguration get(){
+        return this.customFile;
+    }
+
+    public FileConfiguration save(Player player){
+        this.file = new File(Bukkit.getServer().getPluginManager().getPlugin(SimpleTabList.getPlugin().getName()).getDataFolder(), "users/"+player.getUniqueId()+".yml");
+        if (!this.file.exists()){
+            try{
+                this.file.createNewFile();
+            }catch (IOException e){
+                //owww
+            }
+        }
         try{
-            customFile.save(file);
+            this.customFile.save(this.file);
+        }catch (IOException e){
+            System.out.println("Couldn't save file");
+        }
+        return this.customFile;
+    }
+
+    public FileConfiguration save(String path){
+        this.file = new File(Bukkit.getServer().getPluginManager().getPlugin(SimpleTabList.getPlugin().getName()).getDataFolder(), path + ".yml");
+        if (!this.file.exists()){
+            try{
+                this.file.createNewFile();
+            }catch (IOException e){
+                //owww
+            }
+        }
+        try{
+            this.customFile.save(this.file);
+        }catch (IOException e){
+            System.out.println("Couldn't save file");
+        }
+        return this.customFile;
+    }
+
+    public void save(){
+        try{
+            this.customFile.save(this.file);
         }catch (IOException e){
             System.out.println("Couldn't save file");
         }
     }
 
-    public static void reload(){
-        customFile = YamlConfiguration.loadConfiguration(file);
+    public void reload(){
+        this.customFile = YamlConfiguration.loadConfiguration(this.file);
     }
 }

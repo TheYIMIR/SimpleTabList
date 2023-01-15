@@ -1,11 +1,8 @@
 package de.sesosas.simpletablist;
 
-import de.sesosas.simpletablist.classes.handlers.CommandHandler;
-import de.sesosas.simpletablist.classes.handlers.IEventHandler;
-import de.sesosas.simpletablist.classes.handlers.TabHandler;
-import de.sesosas.simpletablist.classes.handlers.UpdateHandler;
+import de.sesosas.simpletablist.classes.handlers.*;
 import de.sesosas.simpletablist.classes.commands.ChatCommands;
-import de.sesosas.simpletablist.classes.commands.HomeCommand;
+import de.sesosas.simpletablist.classes.handlers.worldbased.TabWBHandler;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.event.EventBus;
 import net.luckperms.api.event.LuckPermsEvent;
@@ -40,10 +37,12 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
         java.lang.String[] whitelistedLinks = new java.lang.String[] { "http://discord.gg/invite", "https://your-website" };
 
         config.addDefault("Tab.Names.Use", true);
+        config.addDefault("Tab.Names.Worlds.Use", true);
         config.addDefault("Tab.Header.Use", true);
         config.addDefault("Tab.Header.Content", headerString);
         config.addDefault("Tab.Footer.Use", true);
         config.addDefault("Tab.Footer.Content", footerString);
+        config.addDefault("Tab.Worlds.Use", true);
         config.addDefault("Event.Use", true);
         config.addDefault("Event.JoinMessage", "The Player {player_name} joined the Server!");
         config.addDefault("Event.QuitMessage", "The Player {player_name} left the Server!");
@@ -53,14 +52,14 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
         config.addDefault("Chat.Moderation.WordBlacklist", bannedWords);
         config.addDefault("Chat.Moderation.LinkWhitelist", whitelistedLinks);
         config.addDefault("Chat.Colors", true);
-        config.addDefault("Homes.Use", true);
-        config.addDefault("Homes.Amount", 5);
         config.addDefault("Plugin.ActionbarMessage", false);
         config.addDefault("Plugin.NoticeMe", "You need LuckPerms to get this Plugin to work!");
         config.addDefault("bstats.Use", true);
         config.options().copyDefaults(true);
         saveConfig();
 
+        TeamHandler.Generate();
+        TabWBHandler.GenerateWorldConfig();
 
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
         if (provider != null) {
@@ -89,17 +88,19 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
             @Override
             public void run() {
                 TabHandler.UpdateTab();
+                TeamHandler.ApplyTeam();
             }
         }.runTaskTimer(this, 0, 20L);
 
+
+
         getServer().getPluginManager().registerEvents(new IEventHandler(), this);
         getCommand("stl").setExecutor(new CommandHandler());
-        getCommand("home").setExecutor(new HomeCommand());
         getCommand("chat").setExecutor(new ChatCommands());
         System.out.println("Simple TabList has started!");
     }
 
     private <T extends LuckPermsEvent> void onNodeAddEvent(T t) {
-        TabHandler.UpdateName();
+        TeamHandler.ApplyTeam();
     }
 }

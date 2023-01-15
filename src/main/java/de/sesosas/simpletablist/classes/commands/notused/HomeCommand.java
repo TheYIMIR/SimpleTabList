@@ -1,4 +1,4 @@
-package de.sesosas.simpletablist.classes.commands;
+package de.sesosas.simpletablist.classes.commands.notused;
 
 import de.sesosas.simpletablist.SimpleTabList;
 import de.sesosas.simpletablist.classes.CurrentConfig;
@@ -17,7 +17,7 @@ import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-
+ /*
 public class HomeCommand implements TabExecutor {
 
     @Override
@@ -230,3 +230,4 @@ public class HomeCommand implements TabExecutor {
     }
 
 }
+ */
