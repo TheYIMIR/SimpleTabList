@@ -6,8 +6,8 @@ name:
 authors:
   - SESOSAS
 download:
-  url: https://www.spigotmc.org/resources/simple-tablist-1-12-x-1-19-x.101989/
-  name: Spigot
+  url: https://github.com/TheYIMIR/SimpleTabList/releases/tag/2.8
+  name: GitHub
 supportedPlatforms:
   - spigot
   - paper
