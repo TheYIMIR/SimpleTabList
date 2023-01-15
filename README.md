@@ -28,15 +28,9 @@ Since version 2.1 you can set your own homes. (you can limit it in the main conf
 
 - /chat unmute (need the permission stl.chat.staff)
 
-- /home <HomeName> (need the permission stl.home.add)
-
-- /home add <HomeName> (need the permission stl.home.add)
-
-- /home remove <HomeName> (need the permission stl.home.add)
-
 - /stl reload          (need the Permission stl.reload)
 
-- Permissions
+## Permissions
 
 - stl.chat.clear
 
@@ -89,10 +83,6 @@ For colors please use §
 
 Use & in chat to use colors
 
-Small Example in Luckperms Dashboard
-
-Enter a prefix and suffix here, will show these in the TabList.
-
 ## Additional Information
 
 The TabList updates every 2 seconds.
@@ -103,28 +93,11 @@ Make sure to check if your config is to old! (Make a backup of your current and 
 
 ## Content which could be added in future updates
 
-- Link whitelist
-
-- Word blacklist
-
-- Use PlaceholderAPI instead of own placeholders
-
-- Spawn functions (spawn on xyz in a different world using the MultiversePlugin)
-
-- Tp to other worlds or positions using signs
-
-- Tp to other worlds or positions using portals
-
 - Anti Spam
 
 - Animations
 
-- Other projects I'm working on
-
-- LPChatSystem
-
-- LPTabList
-
+- API
 
 
 All and custom stats here: https://bstats.org/plugin/bukkit/Simple TabList/15221
