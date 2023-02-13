@@ -1,6 +1,7 @@
 package de.sesosas.simpletablist.classes.handlers.worldbased;
 
 import de.sesosas.simpletablist.classes.CustomConfig;
+import de.sesosas.simpletablist.classes.StringFormater;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -16,7 +17,7 @@ public class TabWBHandler {
 
             CustomConfig cf = new CustomConfig().setup("worlds/"+world.getName());
             FileConfiguration con = cf.get();
-            con.addDefault("Prefix", "["+world.getName()+"] ");
+            con.addDefault("Prefix", "["+world.getName()+"]");
             con.addDefault("Suffix", "");
             con.addDefault("Header", headerString);
             con.addDefault("Footer", footerString);

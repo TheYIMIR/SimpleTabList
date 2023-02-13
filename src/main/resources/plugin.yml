@@ -8,6 +8,3 @@ commands:
   stl:
     usage: /stl <reload>
     description: Get plugin help or reload the config.
-  chat:
-    usage: /chat <staff/mute/unmute/clear> <enable/disable/PlayerName>
-    description: Chat command. Enable/Disable Staff chat. Mute/Unmute Player, Clear chat.

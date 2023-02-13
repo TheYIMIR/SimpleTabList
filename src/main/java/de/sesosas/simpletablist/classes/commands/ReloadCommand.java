@@ -1,10 +1,10 @@
 package de.sesosas.simpletablist.classes.commands;
 
+import de.sesosas.simpletablist.classes.handlers.NameHandler;
 import de.sesosas.simpletablist.classes.handlers.PermissionsHandler;
 import de.sesosas.simpletablist.SimpleTabList;
 import de.sesosas.simpletablist.classes.handlers.MessageHandler;
 import de.sesosas.simpletablist.classes.handlers.TabHandler;
-import de.sesosas.simpletablist.classes.handlers.TeamHandler;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -21,8 +21,7 @@ public class ReloadCommand {
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
             SimpleTabList.getPlugin().config = cfg;
 
-            TabHandler.UpdateTab();
-            TeamHandler.ApplyTeam();
+            NameHandler.Update();
 
             String text = "Successfully reloaded the Config!";
             MessageHandler.Send(player, ChatColor.AQUA + text);

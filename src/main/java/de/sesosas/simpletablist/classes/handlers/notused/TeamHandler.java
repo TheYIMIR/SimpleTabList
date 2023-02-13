@@ -1,5 +1,9 @@
-package de.sesosas.simpletablist.classes.handlers;
+/*
+package de.sesosas.simpletablist.classes.handlers.notused;
 
+import de.sesosas.simpletablist.classes.handlers.LPFunctionsHandler;
+import de.sesosas.simpletablist.classes.handlers.NameHandler;
+import de.sesosas.simpletablist.classes.handlers.PermissionsHandler;
 import de.sesosas.simpletablist.classes.handlers.worldbased.TabWBHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -68,3 +72,6 @@ public class TeamHandler {
         }
     }
 }
+
+
+ */

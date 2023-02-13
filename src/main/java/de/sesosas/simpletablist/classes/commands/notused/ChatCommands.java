@@ -1,4 +1,5 @@
-package de.sesosas.simpletablist.classes.commands;
+/*
+package de.sesosas.simpletablist.classes.commands.notused;
 
 import de.sesosas.simpletablist.classes.CurrentConfig;
 import de.sesosas.simpletablist.classes.CustomConfig;
@@ -219,3 +220,5 @@ public class ChatCommands implements TabExecutor {
 }
 
 
+
+ */
