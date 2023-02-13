@@ -11,36 +11,15 @@ This Spigot plugin is an open-source projekt. It's kinda also planned to show ho
 - [Discord](https://discord.gg/J6wQn3bAkm)
 
 What does this plugin do
-This Plugin is showing prefix & suffixes in the TabList & Chat which you can provide by LuckPerm Groups.
-Since version 1.7 there is now also a staff chat.
-Since version 1.8 you can mute other players.
-Since version 2.1 you can set your own homes. (you can limit it in the main config)
+This Plugin is showing prefix & suffixes in the TabList which you can provide by LuckPerm Groups.
 
 ## Commands
 
 - /stl                     (for help)
 
-- /chat clear <Username> (need the permission stl.chat.clear(-.other))
-
-- /chat staff <enable/disable> (need the permission stl.chat.staff)
-
-- /chat mute (need the permission stl.chat.staff)
-
-- /chat unmute (need the permission stl.chat.staff)
-
 - /stl reload          (need the Permission stl.reload)
 
 ## Permissions
-
-- stl.chat.clear
-
-- stl.chat.clear.other
-
-- stl.chat.staff
-
-- stl.home
-
-- stl.home.add
 
 - stl.reload
 
@@ -48,11 +27,9 @@ Since version 2.1 you can set your own homes. (you can limit it in the main conf
 
 - Tablist
 
+- Additional prefix & suffixes & Headers & Footers which are world based using the configs generated in the world folder
+
 - Prefix & suffixes provided by LuckPerms
-
-- Chat colors
-
-- Player join/quit messages
 
 - Update Tablist on LuckPerms save changes & each second
 
@@ -77,11 +54,6 @@ Since version 2.1 you can set your own homes. (you can limit it in the main conf
 ## Config
 
 For colors please use §
-
-
-## Chat
-
-Use & in chat to use colors
 
 ## Additional Information
 
