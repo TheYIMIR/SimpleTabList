@@ -26,7 +26,7 @@ public class NameHandler {
                         String suffix = (String) TabWBHandler.GetWorldConfig(player.getWorld(), "Suffix");
                         player.setPlayerListName(StringFormater.Get(tpref, player) + " " + StringFormater.Get(prefix, player) + " " + player.getName() + " " + StringFormater.Get(suffix, player) + " " + StringFormater.Get(tsuff, player));
                     } else {
-                        player.setPlayerListName(tpref + player.getName() + tsuff);
+                        player.setPlayerListName(StringFormater.Get(tpref, player) + " " + player.getName() + " " + StringFormater.Get(tsuff, player));
                     }
                 }
             }
