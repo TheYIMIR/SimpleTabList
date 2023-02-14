@@ -65,8 +65,6 @@ Make sure to check if your config is to old! (Make a backup of your current and 
 
 ## Content which could be added in future updates
 
-- Anti Spam
-
 - Animations
 
 - API
