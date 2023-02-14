@@ -1,10 +1,7 @@
-package de.sesosas.simpletablist.classes.handlers;
+package de.sesosas.simpletablist.classes.handlers.events;
 
-import de.sesosas.simpletablist.SimpleTabList;
-import de.sesosas.simpletablist.classes.CurrentConfig;
-import de.sesosas.simpletablist.classes.StringFormater;
-
-import org.bukkit.ChatColor;
+import de.sesosas.simpletablist.classes.handlers.tab.NameHandler;
+import de.sesosas.simpletablist.classes.handlers.tab.TabHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

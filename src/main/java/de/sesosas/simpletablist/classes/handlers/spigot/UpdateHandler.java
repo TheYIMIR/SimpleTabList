@@ -1,4 +1,4 @@
-package de.sesosas.simpletablist.classes.handlers;
+package de.sesosas.simpletablist.classes.handlers.spigot;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;

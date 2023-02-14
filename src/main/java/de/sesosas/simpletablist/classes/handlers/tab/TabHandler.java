@@ -1,4 +1,4 @@
-package de.sesosas.simpletablist.classes.handlers;
+package de.sesosas.simpletablist.classes.handlers.tab;
 
 import de.sesosas.simpletablist.classes.CurrentConfig;
 import de.sesosas.simpletablist.classes.StringFormater;

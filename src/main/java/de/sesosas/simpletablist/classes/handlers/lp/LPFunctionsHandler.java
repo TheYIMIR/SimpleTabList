@@ -1,4 +1,4 @@
-package de.sesosas.simpletablist.classes.handlers;
+package de.sesosas.simpletablist.classes.handlers.lp;
 
 import de.sesosas.simpletablist.classes.StringFormater;
 import net.luckperms.api.LuckPerms;

@@ -1,13 +1,13 @@
-package de.sesosas.simpletablist.classes.handlers;
+package de.sesosas.simpletablist.classes.handlers.commands;
 
 import de.sesosas.simpletablist.classes.commands.ReloadCommand;
+import de.sesosas.simpletablist.classes.handlers.internal.MessageHandler;
+import de.sesosas.simpletablist.classes.handlers.lp.PermissionsHandler;
 import org.bukkit.ChatColor;
 import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class CommandHandler implements TabExecutor {

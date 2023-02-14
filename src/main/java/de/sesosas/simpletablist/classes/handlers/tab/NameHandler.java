@@ -1,7 +1,8 @@
-package de.sesosas.simpletablist.classes.handlers;
+package de.sesosas.simpletablist.classes.handlers.tab;
 
 import de.sesosas.simpletablist.classes.CurrentConfig;
 import de.sesosas.simpletablist.classes.StringFormater;
+import de.sesosas.simpletablist.classes.handlers.lp.LPFunctionsHandler;
 import de.sesosas.simpletablist.classes.handlers.worldbased.TabWBHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

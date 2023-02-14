@@ -1,10 +1,9 @@
 package de.sesosas.simpletablist.classes.commands;
 
-import de.sesosas.simpletablist.classes.handlers.NameHandler;
-import de.sesosas.simpletablist.classes.handlers.PermissionsHandler;
+import de.sesosas.simpletablist.classes.handlers.tab.NameHandler;
+import de.sesosas.simpletablist.classes.handlers.lp.PermissionsHandler;
 import de.sesosas.simpletablist.SimpleTabList;
-import de.sesosas.simpletablist.classes.handlers.MessageHandler;
-import de.sesosas.simpletablist.classes.handlers.TabHandler;
+import de.sesosas.simpletablist.classes.handlers.internal.MessageHandler;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;

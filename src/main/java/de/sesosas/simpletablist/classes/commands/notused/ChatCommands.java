@@ -3,8 +3,8 @@ package de.sesosas.simpletablist.classes.commands.notused;
 
 import de.sesosas.simpletablist.classes.CurrentConfig;
 import de.sesosas.simpletablist.classes.CustomConfig;
-import de.sesosas.simpletablist.classes.handlers.MessageHandler;
-import de.sesosas.simpletablist.classes.handlers.PermissionsHandler;
+import de.sesosas.simpletablist.classes.handlers.internal.MessageHandler;
+import de.sesosas.simpletablist.classes.handlers.lp.PermissionsHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

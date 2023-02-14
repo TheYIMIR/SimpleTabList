@@ -1,9 +1,9 @@
 /*
 package de.sesosas.simpletablist.classes.handlers.notused;
 
-import de.sesosas.simpletablist.classes.handlers.LPFunctionsHandler;
-import de.sesosas.simpletablist.classes.handlers.NameHandler;
-import de.sesosas.simpletablist.classes.handlers.PermissionsHandler;
+import de.sesosas.simpletablist.classes.handlers.lp.LPFunctionsHandler;
+import de.sesosas.simpletablist.classes.handlers.tab.NameHandler;
+import de.sesosas.simpletablist.classes.handlers.lp.PermissionsHandler;
 import de.sesosas.simpletablist.classes.handlers.worldbased.TabWBHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;

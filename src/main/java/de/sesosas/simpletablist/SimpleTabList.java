@@ -1,6 +1,10 @@
 package de.sesosas.simpletablist;
 
-import de.sesosas.simpletablist.classes.handlers.*;
+import de.sesosas.simpletablist.classes.handlers.commands.CommandHandler;
+import de.sesosas.simpletablist.classes.handlers.events.IEventHandler;
+import de.sesosas.simpletablist.classes.handlers.spigot.UpdateHandler;
+import de.sesosas.simpletablist.classes.handlers.tab.NameHandler;
+import de.sesosas.simpletablist.classes.handlers.tab.TabHandler;
 import de.sesosas.simpletablist.classes.handlers.worldbased.TabWBHandler;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.event.EventBus;
