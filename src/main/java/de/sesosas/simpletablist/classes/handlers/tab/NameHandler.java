@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 public class NameHandler {
     public static void Update(){
         try {
-            if(CurrentConfig.getBoolean("Tab.Names.Use")) {
+            if(CurrentConfig.getBoolean("Names.Use")) {
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     String tpref = "";
                     String tsuff = "";
@@ -22,7 +22,7 @@ public class NameHandler {
                         tsuff = LPFunctionsHandler.getSuffix(player);
                     }
 
-                    if (CurrentConfig.getBoolean("Tab.Names.Worlds.Use")) {
+                    if (CurrentConfig.getBoolean("Worlds.Names.Use")) {
                         String prefix = (String) TabWBHandler.GetWorldConfig(player.getWorld(), "Prefix");
                         String suffix = (String) TabWBHandler.GetWorldConfig(player.getWorld(), "Suffix");
                         player.setPlayerListName(StringFormater.Get(tpref, player) + " " + StringFormater.Get(prefix, player) + " " + player.getName() + " " + StringFormater.Get(suffix, player) + " " + StringFormater.Get(tsuff, player));

@@ -15,13 +15,13 @@ public class TabHandler {
         try{
             for (Player player : Bukkit.getOnlinePlayers()) {
 
-                if(!CurrentConfig.getBoolean("Tab.Worlds.Use")){
+                if(!CurrentConfig.getBoolean("Worlds.HeaderFooter.Use")){
                     //TabList Header
-                    if(CurrentConfig.getBoolean("Tab.Header.Use")){
-                        if(CurrentConfig.getList("Tab.Header.Content") != null){
+                    if(CurrentConfig.getBoolean("Header.Use")){
+                        if(CurrentConfig.getList("Header.Content") != null){
                             String headerString = "";
-                            if(CurrentConfig.getList("Tab.Header.Content").size() >= 1){
-                                for(Object str : CurrentConfig.getList("Tab.Header.Content")){
+                            if(CurrentConfig.getList("Header.Content").size() >= 1){
+                                for(Object str : CurrentConfig.getList("Header.Content")){
                                     headerString = headerString + str + "\n";
                                 }
                             }
@@ -30,11 +30,11 @@ public class TabHandler {
                     }
 
                     //TabList Footer
-                    if(CurrentConfig.getBoolean("Tab.Footer.Use")){
-                        if(CurrentConfig.getList("Tab.Header.Content") != null){
+                    if(CurrentConfig.getBoolean("Footer.Use")){
+                        if(CurrentConfig.getList("Header.Content") != null){
                             String footerString = "";
-                            if(CurrentConfig.getList("Tab.Footer.Content").size() >= 1){
-                                for(Object str : CurrentConfig.getList("Tab.Footer.Content")){
+                            if(CurrentConfig.getList("Footer.Content").size() >= 1){
+                                for(Object str : CurrentConfig.getList("Footer.Content")){
                                     footerString = footerString + "\n" + str;
                                 }
                             }
@@ -44,7 +44,7 @@ public class TabHandler {
                 }
                 else{
                     //TabList Header
-                    if(CurrentConfig.getBoolean("Tab.Footer.Use")){
+                    if(CurrentConfig.getBoolean("Footer.Use")){
                         if(TabWBHandler.GetWorldConfig(player.getWorld(), "Header") != null){
                             String headerString = "";
                             List<String> head = (List<String>)TabWBHandler.GetWorldConfig(player.getWorld(), "Header");
@@ -58,7 +58,7 @@ public class TabHandler {
                     }
 
                     //TabList Footer
-                    if(CurrentConfig.getBoolean("Tab.Footer.Use")){
+                    if(CurrentConfig.getBoolean("Footer.Use")){
                         if(TabWBHandler.GetWorldConfig(player.getWorld(), "Footer") != null){
                             String footerString = "";
                             List<String> foot = (List<String>)TabWBHandler.GetWorldConfig(player.getWorld(), "Footer");

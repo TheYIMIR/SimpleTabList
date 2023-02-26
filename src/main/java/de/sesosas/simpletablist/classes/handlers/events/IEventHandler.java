@@ -1,5 +1,6 @@
 package de.sesosas.simpletablist.classes.handlers.events;
 
+import de.sesosas.simpletablist.SimpleTabList;
 import de.sesosas.simpletablist.classes.handlers.tab.NameHandler;
 import de.sesosas.simpletablist.classes.handlers.tab.TabHandler;
 import org.bukkit.entity.Player;
@@ -8,13 +9,19 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPortalExitEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
-public class IEventHandler implements Listener {
+public class IEventHandler implements Listener  {
 
     @EventHandler
     public void OnPlayerJoin(PlayerJoinEvent event){
-        NameHandler.Update();
-        TabHandler.UpdateTab();
+        Thread thread = new Thread(){
+            public void run(){
+                NameHandler.Update();
+                TabHandler.UpdateTab();
+            }
+        };
+        thread.start();
         /*
         if(CurrentConfig.getBoolean("Event.Use")){
             new UpdateHandler(SimpleTabList.getPlugin(), 101989).getVersion(version -> {
@@ -39,7 +46,12 @@ public class IEventHandler implements Listener {
 
     @EventHandler
     public void OnPlayerQuit(PlayerQuitEvent event){
-        NameHandler.Update();
+        Thread thread = new Thread(){
+            public void run(){
+                NameHandler.Update();
+            }
+        };
+        thread.start();
         /*
         if(CurrentConfig.getBoolean("Event.Use")){
             if(CurrentConfig.getBoolean("Plugin.ActionbarMessage")){
@@ -99,8 +111,13 @@ public class IEventHandler implements Listener {
     @EventHandler
     public void OnExitPortal(EntityPortalExitEvent event) {
         if(event.getEntity() instanceof Player){
-            NameHandler.Update();
-            TabHandler.UpdateTab();
+            Thread thread = new Thread(){
+                public void run(){
+                    NameHandler.Update();
+                    TabHandler.UpdateTab();
+                }
+            };
+            thread.start();
         }
     }
 }

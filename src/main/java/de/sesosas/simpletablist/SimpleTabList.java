@@ -39,13 +39,14 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
         //java.lang.String[] bannedWords = new java.lang.String[] {"bastard", "ass"};
         //java.lang.String[] whitelistedLinks = new java.lang.String[] { "http://discord.gg/invite", "https://your-website" };
 
-        config.addDefault("Tab.Names.Use", true);
-        config.addDefault("Tab.Names.Worlds.Use", true);
-        config.addDefault("Tab.Header.Use", true);
-        config.addDefault("Tab.Header.Content", headerString);
-        config.addDefault("Tab.Footer.Use", true);
-        config.addDefault("Tab.Footer.Content", footerString);
-        config.addDefault("Tab.Worlds.Use", true);
+        config.addDefault("Names.Use", true);
+        config.addDefault("Worlds.Names.Use", true);
+        config.addDefault("Worlds.HeaderFooter.Use", true);
+        config.addDefault("Header.Use", true);
+        config.addDefault("Header.Content", headerString);
+        config.addDefault("Footer.Use", true);
+        config.addDefault("Footer.Content", footerString);
+        config.addDefault("Chat.Prefix", "§f[§cSTL§f]");
         /*
         config.addDefault("Event.Use", true);
         config.addDefault("Event.JoinMessage", "The Player {player_name} joined the Server!");
@@ -86,14 +87,19 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
             }
         });
 
-        new BukkitRunnable() {
+        Thread thread = new Thread(){
+            public void run(){
+                new BukkitRunnable() {
 
-            @Override
-            public void run() {
-                TabHandler.UpdateTab();
-                NameHandler.Update();
+                    @Override
+                    public void run() {
+                        TabHandler.UpdateTab();
+                        NameHandler.Update();
+                    }
+                }.runTaskTimer(SimpleTabList.getPlugin(), 0, 20L);
             }
-        }.runTaskTimer(this, 0, 20L);
+        };
+        thread.start();
 
 
 
