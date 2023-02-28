@@ -1,5 +1,6 @@
 package de.sesosas.simpletablist.classes.commands;
 
+import de.sesosas.simpletablist.classes.handlers.internal.IntervalHandler;
 import de.sesosas.simpletablist.classes.handlers.tab.NameHandler;
 import de.sesosas.simpletablist.classes.handlers.lp.PermissionsHandler;
 import de.sesosas.simpletablist.SimpleTabList;
@@ -21,6 +22,7 @@ public class ReloadCommand {
             SimpleTabList.getPlugin().config = cfg;
 
             NameHandler.Update();
+            IntervalHandler.ToggleInterval(SimpleTabList.getPlugin().config.getBoolean("Plugin.Update.Interval.Use"));
 
             String text = "Successfully reloaded the Config!";
             MessageHandler.Send(player, ChatColor.AQUA + text);

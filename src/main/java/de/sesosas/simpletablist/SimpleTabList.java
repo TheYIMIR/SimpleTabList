@@ -2,6 +2,7 @@ package de.sesosas.simpletablist;
 
 import de.sesosas.simpletablist.classes.handlers.commands.CommandHandler;
 import de.sesosas.simpletablist.classes.handlers.events.IEventHandler;
+import de.sesosas.simpletablist.classes.handlers.internal.IntervalHandler;
 import de.sesosas.simpletablist.classes.handlers.spigot.UpdateHandler;
 import de.sesosas.simpletablist.classes.handlers.tab.NameHandler;
 import de.sesosas.simpletablist.classes.handlers.tab.TabHandler;
@@ -18,10 +19,16 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitTask;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public final class SimpleTabList extends JavaPlugin implements Listener {
 
     public FileConfiguration config = getConfig();
+
+    public static BukkitTask interval;
 
     private static SimpleTabList plugin;
 
@@ -36,9 +43,6 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
         java.lang.String[] headerString = new java.lang.String[]{"This is a Header!", "Welcome %player_name%!"};
         java.lang.String[] footerString = new java.lang.String[] {"This is a Footer!", "This is Footer line 2!"};
 
-        //java.lang.String[] bannedWords = new java.lang.String[] {"bastard", "ass"};
-        //java.lang.String[] whitelistedLinks = new java.lang.String[] { "http://discord.gg/invite", "https://your-website" };
-
         config.addDefault("Names.Use", true);
         config.addDefault("Worlds.Names.Use", true);
         config.addDefault("Worlds.HeaderFooter.Use", true);
@@ -47,18 +51,12 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
         config.addDefault("Footer.Use", true);
         config.addDefault("Footer.Content", footerString);
         config.addDefault("Chat.Prefix", "§f[§cSTL§f]");
-        /*
-        config.addDefault("Event.Use", true);
-        config.addDefault("Event.JoinMessage", "The Player {player_name} joined the Server!");
-        config.addDefault("Event.QuitMessage", "The Player {player_name} left the Server!");
-        config.addDefault("Chat.Use", true);
-        config.addDefault("Chat.Prefix", "§f[§cSTL§f]");
-        config.addDefault("Chat.Separator", " >> ");
-        config.addDefault("Chat.Moderation.WordBlacklist", bannedWords);
-        config.addDefault("Chat.Moderation.LinkWhitelist", whitelistedLinks);
-        config.addDefault("Chat.Colors", true);
-         */
-        config.addDefault("Plugin.ActionbarMessage", false);
+        config.addDefault("Chat.ActionbarMessage", false);
+        config.addDefault("Plugin.Update.Interval.Use", true);
+        List<String> intervalTime = new ArrayList<>();
+        intervalTime.add("The default time is 20L which is equal to 2 seconds.");
+        config.setComments("Plugin.Update.Interval", intervalTime);
+        config.addDefault("Plugin.Update.Interval.Time", 20L);
         config.addDefault("Plugin.NoticeMe", "You need LuckPerms to get this Plugin to work!");
         config.addDefault("bstats.Use", true);
         config.options().copyDefaults(true);
@@ -86,20 +84,6 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
                 getLogger().info("There is a new update available.");
             }
         });
-
-        Thread thread = new Thread(){
-            public void run(){
-                new BukkitRunnable() {
-
-                    @Override
-                    public void run() {
-                        TabHandler.UpdateTab();
-                        NameHandler.Update();
-                    }
-                }.runTaskTimer(SimpleTabList.getPlugin(), 0, 20L);
-            }
-        };
-        thread.start();
 
 
 
