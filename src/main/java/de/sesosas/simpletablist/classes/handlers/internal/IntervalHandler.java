@@ -15,7 +15,6 @@ public class IntervalHandler {
 
                         @Override
                         public void run() {
-                            TabHandler.UpdateTab();
                             NameHandler.Update();
                         }
                     }.runTaskTimer(SimpleTabList.getPlugin(), 0, SimpleTabList.getPlugin().config.getLong("Plugin.Update.Interval.Time"));

@@ -40,26 +40,27 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
     public void onEnable() {
         plugin = this;
 
-        java.lang.String[] headerString = new java.lang.String[]{"This is a Header!", "Welcome %player_name%!"};
-        java.lang.String[] footerString = new java.lang.String[] {"This is a Footer!", "This is Footer line 2!"};
+        java.lang.String[] headerString = new java.lang.String[]{"\"This is a Header!\"", "\"Welcome %player_name%!\""};
+        java.lang.String[] footerString = new java.lang.String[] {"\"This is a Footer!\"", "\"This is Footer line 2!\""};
 
         config.addDefault("Names.Use", true);
-        config.addDefault("Worlds.Names.Use", true);
-        config.addDefault("Worlds.HeaderFooter.Use", true);
+        config.addDefault("Worlds.Use", false);
         config.addDefault("Header.Use", true);
         config.addDefault("Header.Content", headerString);
         config.addDefault("Footer.Use", true);
         config.addDefault("Footer.Content", footerString);
         config.addDefault("Chat.Prefix", "§f[§cSTL§f]");
         config.addDefault("Chat.ActionbarMessage", false);
-        config.addDefault("Plugin.Update.Interval.Use", true);
-        List<String> intervalTime = new ArrayList<>();
-        intervalTime.add("The default time is 20L which is equal to 2 seconds.");
-        config.setComments("Plugin.Update.Interval", intervalTime);
+        config.addDefault("Plugin.Update.Interval.Use", false);
         config.addDefault("Plugin.Update.Interval.Time", 20L);
         config.addDefault("Plugin.NoticeMe", "You need LuckPerms to get this Plugin to work!");
         config.addDefault("bstats.Use", true);
         config.options().copyDefaults(true);
+        List<String> headerComment = new ArrayList<>();
+        headerComment.add("Worlds");
+        headerComment.add("    Use");
+        headerComment.add("Does enable/disable the worlds function which overrides the current Header and Footer content.");
+        config.options().setHeader(headerComment);
         saveConfig();
         TabWBHandler.GenerateWorldConfig();
 

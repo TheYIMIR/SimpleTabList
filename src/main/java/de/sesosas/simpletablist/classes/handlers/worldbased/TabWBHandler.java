@@ -17,10 +17,13 @@ public class TabWBHandler {
 
             CustomConfig cf = new CustomConfig().setup("worlds/"+world.getName());
             FileConfiguration con = cf.get();
-            con.addDefault("Prefix", "["+world.getName()+"]");
-            con.addDefault("Suffix", "");
-            con.addDefault("Header", headerString);
-            con.addDefault("Footer", footerString);
+            con.addDefault("Names.Use", true);
+            con.addDefault("Header.Use", true);
+            con.addDefault("Footer.Use", true);
+            con.addDefault("Names.Prefix", "["+world.getName()+"]");
+            con.addDefault("Names.Suffix", "");
+            con.addDefault("Header.Content", headerString);
+            con.addDefault("Footer.Content", footerString);
             con.options().copyDefaults(true);
             cf.save();
         }

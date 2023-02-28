@@ -6,10 +6,16 @@ import de.sesosas.simpletablist.classes.handlers.tab.TabHandler;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityPortalEnterEvent;
+import org.bukkit.event.entity.EntityPortalEvent;
 import org.bukkit.event.entity.EntityPortalExitEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.scheduler.BukkitRunnable;
+import sun.java2d.pipe.SpanShapeRenderer;
+
+import java.util.concurrent.TimeUnit;
 
 public class IEventHandler implements Listener  {
 
@@ -18,30 +24,10 @@ public class IEventHandler implements Listener  {
         Thread thread = new Thread(){
             public void run(){
                 NameHandler.Update();
-                TabHandler.UpdateTab();
+                TabHandler.UpdateTab(event.getPlayer());
             }
         };
         thread.start();
-        /*
-        if(CurrentConfig.getBoolean("Event.Use")){
-            new UpdateHandler(SimpleTabList.getPlugin(), 101989).getVersion(version -> {
-                if (Float.parseFloat(SimpleTabList.getPlugin().getDescription().getVersion()) < Float.parseFloat(version)) {
-                    if(event.getPlayer().isOp()){
-                        MessageHandler.Send(event.getPlayer(), ChatColor.AQUA + "There is a new update available.");
-                    }
-                }
-            });
-
-            if(CurrentConfig.getBoolean("Plugin.ActionbarMessage")){
-                MessageHandler.Send(event.getPlayer(), CurrentConfig.getString("Event.JoinMessage"));
-                event.setJoinMessage("");
-            }
-            else{
-                String jm = StringFormater.Get(CurrentConfig.getString("Event.JoinMessage"), event.getPlayer());
-                event.setJoinMessage(jm);
-            }
-        }
-        */
     }
 
     @EventHandler
@@ -52,72 +38,20 @@ public class IEventHandler implements Listener  {
             }
         };
         thread.start();
-        /*
-        if(CurrentConfig.getBoolean("Event.Use")){
-            if(CurrentConfig.getBoolean("Plugin.ActionbarMessage")){
-                MessageHandler.Send(event.getPlayer(), CurrentConfig.getString("Event.QuitMessage"));
-                event.setQuitMessage("");
-            }
-            else{
-                String qm = StringFormater.Get(CurrentConfig.getString("Event.QuitMessage"), event.getPlayer());
-                event.setQuitMessage(qm);
-            }
-        }
-         */
     }
-
-    /*
     @EventHandler
-    public void onPlayerChat(AsyncPlayerChatEvent event) {
-        if(CurrentConfig.getBoolean("Chat.Use")){
-            String message = event.getMessage();
-            String nametag = event.getPlayer().getDisplayName();
-
-            CustomConfig cf = new CustomConfig().setup(event.getPlayer());
-            FileConfiguration con = cf.get();
-
-            if(PermissionsHandler.hasPermission(event.getPlayer(), "stl.chat.staff")){
-                if(con.getBoolean("Chat.Staff")){
-                    event.setCancelled(true);
-                    for(Player player : Bukkit.getOnlinePlayers()){
-                        player.sendMessage(CurrentConfig.getString("Chat.Prefix") + " | Staff | " + nametag + StringFormater.Get(CurrentConfig.getString("Chat.Separator"), event.getPlayer()) + StringFormater.Get(message, event.getPlayer()));
-                    }
+    public void OnEntityPortalExitEvent(PlayerTeleportEvent event) {
+        Thread thread = new Thread(){
+            public void run(){
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
-                else{
-                    if(con.getBoolean("Chat.Muted")){
-                        event.setCancelled(true);
-                        MessageHandler.Send(event.getPlayer(), ChatColor.YELLOW + "You are muted!");
-                    }
-                    else{
-                        event.setCancelled(false);
-                        event.setFormat(nametag + StringFormater.Get(CurrentConfig.getString("Chat.Separator"), event.getPlayer()) + StringFormater.Get(message, event.getPlayer()));
-                    }
-                }
+                NameHandler.Update();
+                TabHandler.UpdateTab(event.getPlayer());
             }
-            else{
-                if(con.getBoolean("Chat.Muted")){
-                    event.setCancelled(true);
-                    MessageHandler.Send(event.getPlayer(), ChatColor.YELLOW + "You are muted!");
-                }
-                else{
-                    event.setCancelled(false);
-                    event.setFormat(nametag + StringFormater.Get(CurrentConfig.getString("Chat.Separator"), event.getPlayer()) + StringFormater.Get(MessageHandler.CheckBannedWords(MessageHandler.CheckLinks(message)), event.getPlayer()));
-                }
-            }
-        }
-    }
-    */
-
-    @EventHandler
-    public void OnExitPortal(EntityPortalExitEvent event) {
-        if(event.getEntity() instanceof Player){
-            Thread thread = new Thread(){
-                public void run(){
-                    NameHandler.Update();
-                    TabHandler.UpdateTab();
-                }
-            };
-            thread.start();
-        }
+        };
+        thread.start();
     }
 }

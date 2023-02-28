@@ -22,9 +22,9 @@ public class NameHandler {
                         tsuff = LPFunctionsHandler.getSuffix(player);
                     }
 
-                    if (CurrentConfig.getBoolean("Worlds.Names.Use")) {
-                        String prefix = (String) TabWBHandler.GetWorldConfig(player.getWorld(), "Prefix");
-                        String suffix = (String) TabWBHandler.GetWorldConfig(player.getWorld(), "Suffix");
+                    if ((boolean)TabWBHandler.GetWorldConfig(player.getWorld(), "Names.Use") && CurrentConfig.getBoolean("Worlds.Use")) {
+                        String prefix = (String) TabWBHandler.GetWorldConfig(player.getWorld(), "Names.Prefix");
+                        String suffix = (String) TabWBHandler.GetWorldConfig(player.getWorld(), "Names.Suffix");
                         player.setPlayerListName(StringFormater.Get(tpref, player) + " " + StringFormater.Get(prefix, player) + " " + player.getName() + " " + StringFormater.Get(suffix, player) + " " + StringFormater.Get(tsuff, player));
                     } else {
                         player.setPlayerListName(StringFormater.Get(tpref, player) + " " + player.getName() + " " + StringFormater.Get(tsuff, player));
