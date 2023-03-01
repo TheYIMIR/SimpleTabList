@@ -40,8 +40,8 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
     public void onEnable() {
         plugin = this;
 
-        java.lang.String[] headerString = new java.lang.String[]{"\"This is a Header!\"", "\"Welcome %player_name%!\""};
-        java.lang.String[] footerString = new java.lang.String[] {"\"This is a Footer!\"", "\"This is Footer line 2!\""};
+        java.lang.String[] headerString = new java.lang.String[]{"This is a Header!", "You: %player_name%!"};
+        java.lang.String[] footerString = new java.lang.String[] {"This is a Footer!", "This is Footer line 2!"};
 
         config.addDefault("Names.Use", true);
         config.addDefault("Worlds.Use", false);
