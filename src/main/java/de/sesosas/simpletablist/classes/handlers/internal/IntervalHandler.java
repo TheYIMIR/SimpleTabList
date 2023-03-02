@@ -17,7 +17,7 @@ public class IntervalHandler {
                         public void run() {
                             NameHandler.Update();
                         }
-                    }.runTaskTimer(SimpleTabList.getPlugin(), 0, SimpleTabList.getPlugin().config.getLong("Plugin.Update.Interval.Time"));
+                    }.runTaskTimer(SimpleTabList.getPlugin(), 0, SimpleTabList.getPlugin().config.getLong("Tab.Refresh.Interval.Time") * 10);
                 }
             };
             thread.start();

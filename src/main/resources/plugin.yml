@@ -5,6 +5,7 @@ authors: [ SESOSAS ]
 description: A TabList which is using LuckPerms Prefix and Suffixes
 depend: [LuckPerms, PlaceholderAPI]
 commands:
-  stl:
-    usage: /stl <reload>
-    description: Get plugin help or reload the config.
+  stl-reload:
+    description: Reload the config
+    permission: stl.reload
+    permission-message: §cYou are not allowed to use this command!

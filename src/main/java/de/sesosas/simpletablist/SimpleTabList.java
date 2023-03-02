@@ -1,5 +1,6 @@
 package de.sesosas.simpletablist;
 
+import de.sesosas.simpletablist.classes.commands.ReloadCommand;
 import de.sesosas.simpletablist.classes.handlers.commands.CommandHandler;
 import de.sesosas.simpletablist.classes.handlers.events.IEventHandler;
 import de.sesosas.simpletablist.classes.handlers.internal.IntervalHandler;
@@ -7,6 +8,7 @@ import de.sesosas.simpletablist.classes.handlers.spigot.UpdateHandler;
 import de.sesosas.simpletablist.classes.handlers.tab.NameHandler;
 import de.sesosas.simpletablist.classes.handlers.tab.TabHandler;
 import de.sesosas.simpletablist.classes.handlers.worldbased.TabWBHandler;
+import jdk.internal.net.http.common.FlowTube;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.event.EventBus;
 import net.luckperms.api.event.LuckPermsEvent;
@@ -51,15 +53,16 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
         config.addDefault("Footer.Content", footerString);
         config.addDefault("Chat.Prefix", "§f[§cSTL§f]");
         config.addDefault("Chat.ActionbarMessage", false);
-        config.addDefault("Plugin.Update.Interval.Use", false);
-        config.addDefault("Plugin.Update.Interval.Time", 20L);
-        config.addDefault("Plugin.NoticeMe", "You need LuckPerms to get this Plugin to work!");
+        config.addDefault("Tab.Refresh.Interval.Use", false);
+        config.addDefault("Tab.Refresh.Interval.Time", 2L);
         config.addDefault("bstats.Use", true);
         config.options().copyDefaults(true);
         List<String> headerComment = new ArrayList<>();
         headerComment.add("Worlds");
         headerComment.add("    Use");
         headerComment.add("Does enable/disable the worlds function which overrides the current Header and Footer content.");
+        headerComment.add("You need LuckPerms and PlaceholderAPI to make this plugin work!");
+        headerComment.add("Tab Refresh Interval Time is calculated in seconds.");
         config.options().setHeader(headerComment);
         saveConfig();
         TabWBHandler.GenerateWorldConfig();
@@ -79,17 +82,17 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
         }
 
         new UpdateHandler(this, 101989).getVersion(version -> {
-            if (this.getDescription().getVersion().equals(version)) {
-                getLogger().info("There is no new update available.");
-            } else {
+            if (Float.parseFloat(this.getDescription().getVersion()) < Float.parseFloat(version)) {
                 getLogger().info("There is a new update available.");
+            } else {
+                getLogger().info("There is no a new update available.");
             }
         });
 
 
 
         getServer().getPluginManager().registerEvents(new IEventHandler(), this);
-        getCommand("stl").setExecutor(new CommandHandler());
+        getCommand("stl-reload").setExecutor(new ReloadCommand());
         System.out.println("Simple TabList has started!");
     }
 

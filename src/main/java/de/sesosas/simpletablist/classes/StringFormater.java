@@ -12,25 +12,12 @@ public class StringFormater {
         return "{" + text + "}";
     }
 
-    public static String Get(String text){
-        if(CurrentConfig.getBoolean("Chat.Colors")){
-            return text
-                    .replace("%", " percent ")
-                    .replace("&", "§");
-        }
-        else{
-            return text
-                    .replace("%", " percent ");
-        }
-    }
-
     public static String Get(String text, Player player){
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits(2);
         if(text != null){
             String con = PlaceholderAPI.setPlaceholders(player, text);
             return con
-                    .replace("%", " percent ")
                     .replace("&", "§")
                     .replace(ph("player_name"), player.getDisplayName())
                     .replace(ph("player_health"), df.format(player.getPlayer().getHealth()))

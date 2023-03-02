@@ -16,7 +16,7 @@ public class LPFunctionsHandler {
             CachedMetaData metaData = api.getPlayerAdapter(Player.class).getMetaData(player);
 
             if(metaData.getPrefix() != null && !metaData.getPrefix().equalsIgnoreCase("") && !metaData.getPrefix().equalsIgnoreCase("null")) {
-                return StringFormater.Get(metaData.getPrefix());
+                return StringFormater.Get(metaData.getPrefix(), player);
             }
         }
         else{
@@ -32,7 +32,7 @@ public class LPFunctionsHandler {
             CachedMetaData metaData = api.getPlayerAdapter(Player.class).getMetaData(player);
 
             if(metaData.getSuffix() != null && !metaData.getSuffix().equalsIgnoreCase("") && !metaData.getPrefix().equalsIgnoreCase("null")){
-                return StringFormater.Get(metaData.getSuffix());
+                return StringFormater.Get(metaData.getPrefix(), player);
             }
         }
         else{
