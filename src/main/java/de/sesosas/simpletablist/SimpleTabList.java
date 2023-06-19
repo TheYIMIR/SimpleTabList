@@ -1,14 +1,11 @@
 package de.sesosas.simpletablist;
 
 import de.sesosas.simpletablist.classes.commands.ReloadCommand;
-import de.sesosas.simpletablist.classes.handlers.commands.CommandHandler;
 import de.sesosas.simpletablist.classes.handlers.events.IEventHandler;
 import de.sesosas.simpletablist.classes.handlers.internal.IntervalHandler;
 import de.sesosas.simpletablist.classes.handlers.spigot.UpdateHandler;
 import de.sesosas.simpletablist.classes.handlers.tab.NameHandler;
-import de.sesosas.simpletablist.classes.handlers.tab.TabHandler;
 import de.sesosas.simpletablist.classes.handlers.worldbased.TabWBHandler;
-import jdk.internal.net.http.common.FlowTube;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.event.EventBus;
 import net.luckperms.api.event.LuckPermsEvent;
@@ -20,8 +17,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +25,9 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
 
     public FileConfiguration config = getConfig();
 
-    public static BukkitTask interval;
-
     private static SimpleTabList plugin;
+
+    public static IntervalHandler interval;
 
     public static SimpleTabList getPlugin() {
         return plugin;
@@ -46,6 +41,7 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
         java.lang.String[] footerString = new java.lang.String[] {"This is a Footer!", "This is Footer line 2!"};
 
         config.addDefault("Names.Use", true);
+        config.addDefault("Names.Space.Use", false);
         config.addDefault("Worlds.Use", false);
         config.addDefault("Header.Use", true);
         config.addDefault("Header.Content", headerString);
@@ -89,7 +85,9 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
             }
         });
 
-
+        interval = new IntervalHandler(this, config.getLong("Tab.Refresh.Interval.Time") * 20L);
+        interval.runTaskTimer(this, 0L, SimpleTabList.getPlugin().config.getLong("Tab.Refresh.Interval.Time") * 20L);
+        interval.setEnabled(config.getBoolean("Tab.Refresh.Interval.Use"));
 
         getServer().getPluginManager().registerEvents(new IEventHandler(), this);
         getCommand("stl-reload").setExecutor(new ReloadCommand());

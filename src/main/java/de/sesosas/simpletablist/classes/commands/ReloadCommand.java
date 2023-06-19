@@ -20,31 +20,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 
 public class ReloadCommand implements CommandExecutor {
-
-    public static void Do(Player player, String[] args) {
-
-        if(PermissionsHandler.hasPermission(player, "stl.reload")){
-            File file = new File(SimpleTabList.getPlugin().getDataFolder().getAbsolutePath() + "/config.yml");
-            FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
-            SimpleTabList.getPlugin().config = cfg;
-
-            NameHandler.Update();
-            for(Player p : Bukkit.getOnlinePlayers()){
-                TabHandler.UpdateTab(p);
-            }
-            IntervalHandler.ToggleInterval(SimpleTabList.getPlugin().config.getBoolean("Tab.Refresh.Interval.Use"));
-
-            String text = "Successfully reloaded the Config!";
-            MessageHandler.Send(player, ChatColor.AQUA + text);
-
-        }
-        else{
-            String text = "You are not allowed to use this command!";
-            MessageHandler.Send(player, ChatColor.YELLOW + text);
-        }
-
-    }
-
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         if(sender instanceof Player) {
@@ -57,7 +32,11 @@ public class ReloadCommand implements CommandExecutor {
             for(Player p : Bukkit.getOnlinePlayers()){
                 TabHandler.UpdateTab(p);
             }
-            IntervalHandler.ToggleInterval(SimpleTabList.getPlugin().config.getBoolean("Tab.Refresh.Interval.Use"));
+
+            SimpleTabList.interval.cancel();
+            SimpleTabList.interval = new IntervalHandler(SimpleTabList.getPlugin(), SimpleTabList.getPlugin().config.getLong("Tab.Refresh.Interval.Time") * 20L);
+            SimpleTabList.interval.runTaskTimer(SimpleTabList.getPlugin(), 0L, SimpleTabList.getPlugin().config.getLong("Tab.Refresh.Interval.Time") * 20L);
+            SimpleTabList.interval.setEnabled(SimpleTabList.getPlugin().config.getBoolean("Tab.Refresh.Interval.Use"));
 
             String text = "Successfully reloaded the Config!";
             MessageHandler.Send(player, ChatColor.AQUA + text);

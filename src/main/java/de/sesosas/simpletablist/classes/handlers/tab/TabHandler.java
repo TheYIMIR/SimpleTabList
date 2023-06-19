@@ -3,10 +3,16 @@ package de.sesosas.simpletablist.classes.handlers.tab;
 import de.sesosas.simpletablist.classes.CurrentConfig;
 import de.sesosas.simpletablist.classes.StringFormater;
 import de.sesosas.simpletablist.classes.handlers.worldbased.TabWBHandler;
+import net.luckperms.api.LuckPermsProvider;
+import net.luckperms.api.model.group.Group;
+import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class TabHandler {
