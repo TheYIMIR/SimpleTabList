@@ -15,9 +15,7 @@ This Plugin is showing prefix & suffixes in the TabList which you can provide by
 
 ## Commands
 
-- /stl                     (for help)
-
-- /stl reload          (need the Permission stl.reload)
+- /stl-reload          (need the Permission stl.reload)
 
 ## Permissions
 
