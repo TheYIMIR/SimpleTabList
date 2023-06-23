@@ -38,14 +38,14 @@ public class LPFunctionsHandler {
             LuckPerms api = provider.getProvider();
             CachedMetaData metaData = api.getPlayerAdapter(Player.class).getMetaData(player);
 
-            if(metaData.getSuffix() != null && !metaData.getSuffix().equalsIgnoreCase("") && !metaData.getPrefix().equalsIgnoreCase("null")){
-                return StringFormater.Get(metaData.getPrefix(), player);
+            if(metaData.getSuffix() != null && !metaData.getSuffix().equalsIgnoreCase("") && !metaData.getSuffix().equalsIgnoreCase("null")){
+                return StringFormater.Get(metaData.getSuffix(), player);
             }
         }
         else{
             System.out.println("Didn't found LuckPerms which is necessary for this Plugin!");
         }
-        return null;
+        return "";
     }
 
     private int getPlayerGroupWeight(Player player) {

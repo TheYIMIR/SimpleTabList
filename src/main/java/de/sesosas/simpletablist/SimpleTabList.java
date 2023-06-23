@@ -54,12 +54,12 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
         config.addDefault("bstats.Use", true);
         config.options().copyDefaults(true);
         List<String> headerComment = new ArrayList<>();
-        headerComment.add("Worlds");
-        headerComment.add("    Use");
-        headerComment.add("Does enable/disable the worlds function which overrides the current Header and Footer content.");
-        headerComment.add("You need LuckPerms and PlaceholderAPI to make this plugin work!");
-        headerComment.add("Tab Refresh Interval Time is calculated in seconds.");
-        config.options().setHeader(headerComment);
+        headerComment.add("Worlds\n");
+        headerComment.add("    Use\n");
+        headerComment.add("Does enable/disable the worlds function which overrides the current Header and Footer content.\n");
+        headerComment.add("You need LuckPerms and PlaceholderAPI to make this plugin work!\n");
+        headerComment.add("Tab Refresh Interval Time is calculated in seconds.\n");
+        config.options().header(headerComment.toString().replace("[", "").replace("]", "").replace(", ", ""));
         saveConfig();
         TabWBHandler.GenerateWorldConfig();
 
