@@ -1,6 +1,7 @@
 package de.sesosas.simpletablist.classes.handlers.internal;
 
 import de.sesosas.simpletablist.SimpleTabList;
+import de.sesosas.simpletablist.classes.handlers.tab.AnimationHandler;
 import de.sesosas.simpletablist.classes.handlers.tab.NameHandler;
 import de.sesosas.simpletablist.classes.handlers.tab.TabHandler;
 import org.bukkit.Bukkit;
@@ -35,6 +36,7 @@ public class IntervalHandler extends BukkitRunnable {
     public void run() {
         if (enabled) {
             NameHandler.Update();
+            AnimationHandler.frameIndex++;
             for(Player player : Bukkit.getOnlinePlayers()){
                 TabHandler.UpdateTab(player);
             }

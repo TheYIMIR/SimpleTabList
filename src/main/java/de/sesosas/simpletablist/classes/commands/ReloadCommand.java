@@ -19,6 +19,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 
+import static de.sesosas.simpletablist.classes.handlers.tab.AnimationHandler.loadAnimationsConfig;
+
 public class ReloadCommand implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
@@ -27,6 +29,8 @@ public class ReloadCommand implements CommandExecutor {
             File file = new File(SimpleTabList.getPlugin().getDataFolder().getAbsolutePath() + "/config.yml");
             FileConfiguration cfg = YamlConfiguration.loadConfiguration(file);
             SimpleTabList.getPlugin().config = cfg;
+
+            loadAnimationsConfig();
 
             NameHandler.Update();
             for(Player p : Bukkit.getOnlinePlayers()){

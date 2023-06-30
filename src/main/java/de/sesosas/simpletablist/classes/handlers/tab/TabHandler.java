@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+import static de.sesosas.simpletablist.classes.handlers.tab.AnimationHandler.convertAnimatedText;
+
 public class TabHandler {
 
     public static void UpdateTab(Player player){
@@ -29,7 +31,7 @@ public class TabHandler {
                                     headerString = headerString + str + "\n";
                                 }
                             }
-                            player.setPlayerListHeader(StringFormater.Get(headerString, player));
+                            player.setPlayerListHeader(StringFormater.Get(convertAnimatedText(headerString), player));
                         }
                     }
 
@@ -42,7 +44,7 @@ public class TabHandler {
                                     footerString = footerString + "\n" + str;
                                 }
                             }
-                            player.setPlayerListFooter(StringFormater.Get(footerString, player));
+                            player.setPlayerListFooter(StringFormater.Get(convertAnimatedText(footerString), player));
                         }
                     }
                 }
@@ -58,7 +60,7 @@ public class TabHandler {
                                         headerString = headerString + str + "\n";
                                     }
                                 }
-                                player.setPlayerListHeader(StringFormater.Get(headerString, player));
+                                player.setPlayerListHeader(StringFormater.Get(convertAnimatedText(headerString), player));
                             }
                         }
                         else{
@@ -69,7 +71,7 @@ public class TabHandler {
                                         headerString = headerString + str + "\n";
                                     }
                                 }
-                                player.setPlayerListHeader(StringFormater.Get(headerString, player));
+                                player.setPlayerListHeader(StringFormater.Get(convertAnimatedText(headerString), player));
                             }
                         }
                     }
@@ -85,7 +87,7 @@ public class TabHandler {
                                         footerString = footerString + "\n" + str;
                                     }
                                 }
-                                player.setPlayerListFooter(StringFormater.Get(footerString, player));
+                                player.setPlayerListFooter(StringFormater.Get(convertAnimatedText(footerString), player));
                             }
                         }
                         else{
@@ -96,7 +98,7 @@ public class TabHandler {
                                         footerString = footerString + "\n" + str;
                                     }
                                 }
-                                player.setPlayerListFooter(StringFormater.Get(footerString, player));
+                                player.setPlayerListFooter(StringFormater.Get(convertAnimatedText(footerString), player));
                             }
                         }
                     }
