@@ -48,7 +48,7 @@ public class LPFunctionsHandler {
         return "";
     }
 
-    private int getPlayerGroupWeight(Player player) {
+    public static int getPlayerGroupWeight(Player player) {
         User user = LuckPermsProvider.get().getUserManager().getUser(player.getUniqueId());
         if (user != null) {
             String primaryGroupName = user.getPrimaryGroup();
@@ -63,5 +63,19 @@ public class LPFunctionsHandler {
             }
         }
         return 0;
+    }
+
+    public static String getPlayerGroupName(Player player) {
+        User user = LuckPermsProvider.get().getUserManager().getUser(player.getUniqueId());
+        if (user != null) {
+            String primaryGroupName = user.getPrimaryGroup();
+            if (primaryGroupName != null) {
+                Group group = LuckPermsProvider.get().getGroupManager().getGroup(primaryGroupName);
+                if (group != null) {
+                    return group.getName();
+                }
+            }
+        }
+        return "";
     }
 }
