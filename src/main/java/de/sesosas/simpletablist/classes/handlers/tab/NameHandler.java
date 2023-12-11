@@ -29,24 +29,35 @@ public class NameHandler {
 
                 for (int i = 0; i < playerList.size(); i++) {
                     Player player = playerList.get(i);
+                    String spaces = (SimpleTabList.getPlugin().config.getBoolean("Names.Space.Use") ? " " : "");
+                    String gpref = "";
+                    String gsuff = "";
                     String tpref = "";
                     String tsuff = "";
+                    String wpref = "";
+                    String wsuff = "";
 
                     int playerWeight = LPFunctionsHandler.getPlayerGroupWeight(player);
 
                     String s = "000000".substring(String.valueOf(playerWeight).length()) + playerWeight + LPFunctionsHandler.getPlayerGroupName(player);
 
                     Team team = scoreboard.getTeam(s);
+
                     if (team == null) {
                         team = scoreboard.registerNewTeam(s);
                     }
 
-                    if (LPFunctionsHandler.getPrefix(player) != null) {
-                        tpref = LPFunctionsHandler.getPrefix(player);
+                    if (LPFunctionsHandler.getPrefix(player) != null && CurrentConfig.getBoolean("Names.LuckPerm.Prefix")) {
+                        tpref = StringFormater.Get(LPFunctionsHandler.getPrefix(player), player) + spaces;
                     }
 
-                    if (LPFunctionsHandler.getSuffix(player) != null) {
-                        tsuff = LPFunctionsHandler.getSuffix(player);
+                    if (LPFunctionsHandler.getSuffix(player) != null && CurrentConfig.getBoolean("Names.LuckPerm.Suffix")) {
+                        tsuff = spaces + StringFormater.Get(LPFunctionsHandler.getSuffix(player), player);
+                    }
+
+                    if (CurrentConfig.getBoolean("Names.Global.Use")) {
+                        gpref = StringFormater.Get(CurrentConfig.getString("Names.Global.Prefix"), player) + spaces;
+                        gsuff = spaces + StringFormater.Get(CurrentConfig.getString("Names.Global.Suffix"), player);
                     }
 
                     team.addEntry(player.getName());
@@ -55,27 +66,16 @@ public class NameHandler {
                         String prefix = (String) TabWBHandler.GetWorldConfig(player.getWorld(), "Names.Prefix");
                         String suffix = (String) TabWBHandler.GetWorldConfig(player.getWorld(), "Names.Suffix");
 
-                        String cprefix = "";
-                        String csuffix = "";
-
                         if(!prefix.isEmpty()) {
-                            cprefix = StringFormater.Get(tpref, player) + (SimpleTabList.getPlugin().config.getBoolean("Names.Space.Use") ? " " : "") + StringFormater.Get(prefix, player) + (SimpleTabList.getPlugin().config.getBoolean("Names.Space.Use") ? " " : "");
-                        }
-                        else {
-                            cprefix = StringFormater.Get(tpref, player) + (SimpleTabList.getPlugin().config.getBoolean("Names.Space.Use") ? " " : "") + StringFormater.Get(prefix, player);
+                            wpref = StringFormater.Get(prefix, player) + spaces;
                         }
 
                         if(!suffix.isEmpty()){
-                            csuffix = (SimpleTabList.getPlugin().config.getBoolean("Names.Space.Use") ? " " : "") + StringFormater.Get(suffix, player) + (SimpleTabList.getPlugin().config.getBoolean("Names.Space.Use") ? " " : "") + StringFormater.Get(tsuff, player);
+                            wsuff = spaces + StringFormater.Get(suffix, player);
                         }
-                        else {
-                            csuffix = (SimpleTabList.getPlugin().config.getBoolean("Names.Space.Use") ? " " : "") + StringFormater.Get(tsuff, player);
-                        }
-
-                        player.setPlayerListName(cprefix + player.getName() + csuffix);
-                    } else {
-                        player.setPlayerListName(StringFormater.Get(tpref, player) + (SimpleTabList.getPlugin().config.getBoolean("Names.Space.Use") ? " " : "") + player.getName() + (SimpleTabList.getPlugin().config.getBoolean("Names.Space.Use") ? " " : "") + StringFormater.Get(tsuff, player));
                     }
+
+                    player.setPlayerListName(tpref + gpref +  wpref + player.getName() + wsuff + gsuff + tsuff);
                 }
             }
         }
