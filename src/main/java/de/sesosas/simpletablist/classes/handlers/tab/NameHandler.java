@@ -18,8 +18,12 @@ import java.util.Comparator;
 import java.util.List;
 
 public class NameHandler {
+    public static Scoreboard scoreboard;
 
-    public static Scoreboard scoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
+    public static void initScoreboard(){
+        NameHandler.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+    }
+
     public static void Update(){
         try {
             if(CurrentConfig.getBoolean("Names.Use")) {
