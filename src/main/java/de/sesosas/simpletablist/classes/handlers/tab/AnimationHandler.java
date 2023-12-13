@@ -20,12 +20,28 @@ public class AnimationHandler {
     private static FileConfiguration animationsConfig = null;
     public static int frameIndex = 0;
 
+    public static void GenerateAnimationExample(){
+        CustomConfig cf = null;
+        FileConfiguration con = null;
+        if (!new CustomConfig().exist("animations")) {
+            cf = new CustomConfig().setup("animations");
+            con = cf.get();
+        }
+        else{
+            con = new CustomConfig().get("animations");
+        }
+        java.lang.String[] animarray = new java.lang.String[]{"Frame 1", "Frame 2", "Frame 3"};
+        con.addDefault("animations.0", animarray);
+        con.options().copyDefaults(true);
+        animationsConfig = con;
+        if(cf != null) cf.save();
+    }
+
     public static String convertAnimatedText(String message) {
         Matcher matcher = animationPattern.matcher(message);
         StringBuffer buffer = new StringBuffer();
 
         while (matcher.find()) {
-            String animationTag = matcher.group();
             String animationId = matcher.group(1);
             String animatedText = getAnimatedText(animationId);
 
@@ -55,7 +71,6 @@ public class AnimationHandler {
     public static void loadAnimationsConfig() {
         CustomConfig cf = new CustomConfig().setup("animations");
         FileConfiguration con = cf.get();
-
         animationsConfig = con;
     }
 }

@@ -16,6 +16,7 @@ import org.bukkit.scoreboard.Team;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 public class NameHandler {
     public static Scoreboard scoreboard;
@@ -26,24 +27,21 @@ public class NameHandler {
 
     public static void Update(){
         try {
-            if(CurrentConfig.getBoolean("Names.Use")) {
+            if(CurrentConfig.getBoolean("Names.Enable")) {
 
                 List<Player> playerList = new ArrayList<>(Bukkit.getOnlinePlayers());
-                playerList.sort(Comparator.comparingInt(NameHandler::getPlayerGroupWeight));
+                playerList.sort(Comparator.comparingInt(player -> translatePlayerWeight(LPFunctionsHandler.getPlayerGroupWeight(player))));
 
                 for (int i = 0; i < playerList.size(); i++) {
                     Player player = playerList.get(i);
-                    String spaces = (SimpleTabList.getPlugin().config.getBoolean("Names.Space.Use") ? " " : "");
-                    String gpref = "";
-                    String gsuff = "";
-                    String tpref = "";
-                    String tsuff = "";
-                    String wpref = "";
-                    String wsuff = "";
 
-                    int playerWeight = LPFunctionsHandler.getPlayerGroupWeight(player);
+                    String spaces = (SimpleTabList.getPlugin().config.getBoolean("Names.Space.Enable") ? " " : "");
 
-                    String s = "000000".substring(String.valueOf(playerWeight).length()) + playerWeight + LPFunctionsHandler.getPlayerGroupName(player);
+                    String gpref = "", gsuff = "", tpref = "", tsuff = "", wpref = "", wsuff = "";
+
+                    int playerWeight = translatePlayerWeight(LPFunctionsHandler.getPlayerGroupWeight(player));
+
+                    String s = playerWeight + LPFunctionsHandler.getPlayerGroupName(player);
 
                     Team team = scoreboard.getTeam(s);
 
@@ -51,22 +49,22 @@ public class NameHandler {
                         team = scoreboard.registerNewTeam(s);
                     }
 
-                    if (LPFunctionsHandler.getPrefix(player) != null && CurrentConfig.getBoolean("Names.LuckPerm.Prefix")) {
+                    if (LPFunctionsHandler.getPrefix(player) != null && CurrentConfig.getBoolean("Names.LuckPerms.Prefix.Enable")) {
                         tpref = StringFormater.Get(LPFunctionsHandler.getPrefix(player), player) + spaces;
                     }
 
-                    if (LPFunctionsHandler.getSuffix(player) != null && CurrentConfig.getBoolean("Names.LuckPerm.Suffix")) {
+                    if (LPFunctionsHandler.getSuffix(player) != null && CurrentConfig.getBoolean("Names.LuckPerms.Suffix.Enable")) {
                         tsuff = spaces + StringFormater.Get(LPFunctionsHandler.getSuffix(player), player);
                     }
 
-                    if (CurrentConfig.getBoolean("Names.Global.Use")) {
+                    if (CurrentConfig.getBoolean("Names.Global.Enable")) {
                         gpref = StringFormater.Get(CurrentConfig.getString("Names.Global.Prefix"), player) + spaces;
                         gsuff = spaces + StringFormater.Get(CurrentConfig.getString("Names.Global.Suffix"), player);
                     }
 
                     team.addEntry(player.getName());
 
-                    if ((boolean)TabWBHandler.GetWorldConfig(player.getWorld(), "Names.Use") && CurrentConfig.getBoolean("Worlds.Use")) {
+                    if ((boolean)TabWBHandler.GetWorldConfig(player.getWorld(), "Names.Enable") && CurrentConfig.getBoolean("Worlds.Enable")) {
                         String prefix = (String) TabWBHandler.GetWorldConfig(player.getWorld(), "Names.Prefix");
                         String suffix = (String) TabWBHandler.GetWorldConfig(player.getWorld(), "Names.Suffix");
 
@@ -82,24 +80,24 @@ public class NameHandler {
                     player.setPlayerListName(tpref + gpref +  wpref + player.getName() + wsuff + gsuff + tsuff);
                 }
             }
+            else{
+                List<Player> playerList = new ArrayList<>(Bukkit.getOnlinePlayers());
+                playerList.sort(Comparator.comparingInt(player -> translatePlayerWeight(LPFunctionsHandler.getPlayerGroupWeight(player))));
+                for (int i = 0; i < playerList.size(); i++) {
+                    Player player = playerList.get(i);
+                    player.setPlayerListName(player.getName());
+                }
+            }
         }
         catch (Exception e){
             System.out.println(e);
         }
     }
 
-    private static int getPlayerGroupWeight(Player player) {
-        User user = LuckPermsProvider.get().getUserManager().getUser(player.getUniqueId());
-        if (user != null) {
-            String primaryGroupName = user.getPrimaryGroup();
-            if (primaryGroupName != null) {
-                Group group = LuckPermsProvider.get().getGroupManager().getGroup(primaryGroupName);
-                if (group != null) {
-                    int weight = group.getWeight().orElse(0);
-                    return weight;
-                }
-            }
+    private static int translatePlayerWeight(int weight) {
+        if(weight != 0){
+            return Integer.MAX_VALUE - weight;
         }
-        return 0;
+        return Integer.MAX_VALUE;
     }
 }

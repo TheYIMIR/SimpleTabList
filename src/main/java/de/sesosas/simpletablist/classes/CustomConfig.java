@@ -40,6 +40,14 @@ public class CustomConfig {
         return this.customFile;
     }
 
+    public boolean exist(String path){
+        this.file = new File(Bukkit.getServer().getPluginManager().getPlugin(SimpleTabList.getPlugin().getName()).getDataFolder(), path + ".yml");
+        if (this.file.exists()){
+            return true;
+        }
+        return false;
+    }
+
     public FileConfiguration save(String path){
         this.file = new File(Bukkit.getServer().getPluginManager().getPlugin(SimpleTabList.getPlugin().getName()).getDataFolder(), path + ".yml");
         if (!this.file.exists()){

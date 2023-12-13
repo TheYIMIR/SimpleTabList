@@ -21,9 +21,9 @@ public class TabHandler {
 
     public static void UpdateTab(Player player){
         try{
-                if(!CurrentConfig.getBoolean("Worlds.Use") ){
+                if(!CurrentConfig.getBoolean("Worlds.Enable") ){
                     //TabList Header
-                    if(CurrentConfig.getBoolean("Header.Use")){
+                    if(CurrentConfig.getBoolean("Header.Enable")){
                         if(CurrentConfig.getList("Header.Content") != null){
                             String headerString = "";
                             if(CurrentConfig.getList("Header.Content").size() >= 1){
@@ -36,7 +36,7 @@ public class TabHandler {
                     }
 
                     //TabList Footer
-                    if(CurrentConfig.getBoolean("Footer.Use")){
+                    if(CurrentConfig.getBoolean("Footer.Enable")){
                         if(CurrentConfig.getList("Header.Content") != null){
                             String footerString = "";
                             if(CurrentConfig.getList("Footer.Content").size() >= 1){
@@ -50,8 +50,8 @@ public class TabHandler {
                 }
                 else{
                     //TabList Header
-                    if(CurrentConfig.getBoolean("Header.Use")){
-                        if((boolean)TabWBHandler.GetWorldConfig(player.getWorld(), "Header.Use")){
+                    if(CurrentConfig.getBoolean("Header.Enable")){
+                        if((boolean)TabWBHandler.GetWorldConfig(player.getWorld(), "Header.Enable")){
                             if(TabWBHandler.GetWorldConfig(player.getWorld(), "Header.Content") != null){
                                 String headerString = "";
                                 List<String> head = (List<String>)TabWBHandler.GetWorldConfig(player.getWorld(), "Header.Content");
@@ -77,8 +77,8 @@ public class TabHandler {
                     }
 
                     //TabList Footer
-                    if(CurrentConfig.getBoolean("Footer.Use")){
-                        if((boolean)TabWBHandler.GetWorldConfig(player.getWorld(), "Footer.Use")){
+                    if(CurrentConfig.getBoolean("Footer.Enable")){
+                        if((boolean)TabWBHandler.GetWorldConfig(player.getWorld(), "Footer.Enable")){
                             if(TabWBHandler.GetWorldConfig(player.getWorld(), "Footer.Content") != null){
                                 String footerString = "";
                                 List<String> foot = (List<String>)TabWBHandler.GetWorldConfig(player.getWorld(), "Footer.Content");

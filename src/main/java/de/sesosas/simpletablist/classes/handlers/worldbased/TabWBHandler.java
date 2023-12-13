@@ -17,9 +17,9 @@ public class TabWBHandler {
 
             CustomConfig cf = new CustomConfig().setup("worlds/"+world.getName());
             FileConfiguration con = cf.get();
-            con.addDefault("Names.Use", true);
-            con.addDefault("Header.Use", true);
-            con.addDefault("Footer.Use", true);
+            con.addDefault("Names.Enable", true);
+            con.addDefault("Header.Enable", true);
+            con.addDefault("Footer.Enable", true);
             con.addDefault("Names.Prefix", "["+world.getName()+"]");
             con.addDefault("Names.Suffix", "");
             con.addDefault("Header.Content", headerString);

@@ -21,6 +21,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.sesosas.simpletablist.classes.handlers.tab.AnimationHandler;
+
 public final class SimpleTabList extends JavaPlugin implements Listener {
 
     public FileConfiguration config = getConfig();
@@ -39,36 +41,37 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
 
         NameHandler.initScoreboard();
 
-        java.lang.String[] headerString = new java.lang.String[]{"This is a Header!", "You: %player_name%!"};
-        java.lang.String[] footerString = new java.lang.String[] {"This is a Footer!", "This is Footer line 2!"};
+        java.lang.String[] headerString = new java.lang.String[]{"This is a header and animation {animation:0}!", "You: %player_name%!"};
+        java.lang.String[] footerString = new java.lang.String[] {"This is a footer!", "This is footer line 2!"};
 
-        config.addDefault("Names.Use", true);
-        config.addDefault("Names.LuckPerm.Prefix", true);
-        config.addDefault("Names.LuckPerm.Suffix", true);
-        config.addDefault("Names.Global.Use", false);
+        config.addDefault("Names.Enable", true);
+        config.addDefault("Names.LuckPerms.Prefix.Enable", true);
+        config.addDefault("Names.LuckPerms.Suffix.Enable", true);
+        config.addDefault("Names.Global.Enable", false);
         config.addDefault("Names.Global.Prefix", "");
         config.addDefault("Names.Global.Suffix", "");
-        config.addDefault("Names.Space.Use", false);
-        config.addDefault("Worlds.Use", false);
-        config.addDefault("Header.Use", true);
+        config.addDefault("Names.Space.Enable", false);
+        config.addDefault("Worlds.Enable", false);
+        config.addDefault("Header.Enable", true);
         config.addDefault("Header.Content", headerString);
-        config.addDefault("Footer.Use", true);
+        config.addDefault("Footer.Enable", true);
         config.addDefault("Footer.Content", footerString);
         config.addDefault("Chat.Prefix", "§f[§cSTL§f]");
         config.addDefault("Chat.ActionbarMessage", false);
-        config.addDefault("Tab.Refresh.Interval.Use", false);
-        config.addDefault("Tab.Refresh.Interval.Time", 2L);
-        config.addDefault("bstats.Use", true);
+        config.addDefault("Tab.Refresh.Interval.Enable", false);
+        config.addDefault("Tab.Refresh.Interval.Time", 1L);
+        config.addDefault("bstats.Enable", true);
         config.options().copyDefaults(true);
         List<String> headerComment = new ArrayList<>();
         headerComment.add("Worlds\n");
-        headerComment.add("    Use\n");
+        headerComment.add("    Enable\n");
         headerComment.add("Does enable/disable the worlds function which overrides the current Header and Footer content.\n");
         headerComment.add("You need LuckPerms and PlaceholderAPI to make this plugin work!\n");
         headerComment.add("Tab Refresh Interval Time is calculated in seconds.\n");
         config.options().header(headerComment.toString().replace("[", "").replace("]", "").replace(", ", ""));
         saveConfig();
         TabWBHandler.GenerateWorldConfig();
+        AnimationHandler.GenerateAnimationExample();
 
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
         if (provider != null) {
@@ -78,7 +81,7 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
             eventBus.subscribe(this.plugin, NodeAddEvent.class, this::onNodeAddEvent);
         }
 
-        if(config.getBoolean("bstats.Use")){
+        if(config.getBoolean("bstats.Enable")){
             int id = 15221;
             Metrics metrics = new Metrics(this, id);
             metrics.addCustomChart(new SingleLineChart("banned", () -> Bukkit.getBannedPlayers().size()));
@@ -94,7 +97,7 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
 
         interval = new IntervalHandler(this, config.getLong("Tab.Refresh.Interval.Time") * 20L);
         interval.runTaskTimer(this, 0L, SimpleTabList.getPlugin().config.getLong("Tab.Refresh.Interval.Time") * 20L);
-        interval.setEnabled(config.getBoolean("Tab.Refresh.Interval.Use"));
+        interval.setEnabled(config.getBoolean("Tab.Refresh.Interval.Enable"));
 
         getServer().getPluginManager().registerEvents(new IEventHandler(), this);
         getCommand("stl-reload").setExecutor(new ReloadCommand());

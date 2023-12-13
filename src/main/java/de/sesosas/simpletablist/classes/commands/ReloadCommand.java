@@ -40,7 +40,7 @@ public class ReloadCommand implements CommandExecutor {
             SimpleTabList.interval.cancel();
             SimpleTabList.interval = new IntervalHandler(SimpleTabList.getPlugin(), SimpleTabList.getPlugin().config.getLong("Tab.Refresh.Interval.Time") * 20L);
             SimpleTabList.interval.runTaskTimer(SimpleTabList.getPlugin(), 0L, SimpleTabList.getPlugin().config.getLong("Tab.Refresh.Interval.Time") * 20L);
-            SimpleTabList.interval.setEnabled(SimpleTabList.getPlugin().config.getBoolean("Tab.Refresh.Interval.Use"));
+            SimpleTabList.interval.setEnabled(SimpleTabList.getPlugin().config.getBoolean("Tab.Refresh.Interval.Enable"));
 
             String text = "Successfully reloaded the Config!";
             MessageHandler.Send(player, ChatColor.AQUA + text);
