@@ -42,6 +42,14 @@ public class TabHandler {
                 player.setPlayerListFooter(StringFormater.Get(convertAnimatedText(contentString), player));
             }
         }
+        else{
+            if(isHeader){
+                player.setPlayerListHeader("");
+            }
+            else{
+                player.setPlayerListFooter("");
+            }
+        }
     }
 
     private static String buildContentString(List<String> contentList, boolean isHeader) {
