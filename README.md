@@ -41,8 +41,6 @@ This Plugin is showing prefix & suffixes in the TabList which you can provide by
 
 - {player_food} | Fetch Player food
 
-- {player_ping} | Fetch Player ping
-
 - {player_xp} | Fetch Player xp
 
 - {player_lvl} | Fetch Player lvl
