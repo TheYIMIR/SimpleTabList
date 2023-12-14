@@ -69,7 +69,7 @@ public class NameHandler {
 
         player.setPlayerListName(tpref + gpref + wpref + player.getName() + wsuff + gsuff + tsuff);
         
-        if (CurrentConfig.getBoolean("Names.Sort.Use")){
+        if (CurrentConfig.getBoolean("Names.Sort.Enable")){
             String sortOrder = CurrentConfig.getString("Names.Sort.Order");
             String sortType = CurrentConfig.getString("Names.Sort.Type");
             boolean isAscending = sortOrder.equalsIgnoreCase("asc");
