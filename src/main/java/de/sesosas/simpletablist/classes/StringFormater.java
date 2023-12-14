@@ -11,8 +11,6 @@ import java.util.regex.Pattern;
 
 public class StringFormater {
 
-    private final Pattern hexColorPattern = Pattern.compile("\\{#([A-Fa-f0-9]{6})}");
-
     private static String ph(String text){
         return "{" + text + "}";
     }
