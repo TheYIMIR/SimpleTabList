@@ -50,6 +50,9 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
         config.addDefault("Names.Global.Enable", false);
         config.addDefault("Names.Global.Prefix", "");
         config.addDefault("Names.Global.Suffix", "");
+        config.addDefault("Names.Sort.Enable", true);
+        config.addDefault("Names.Sort.Type", "weight");
+        config.addDefault("Names.Sort.Order", "asc");
         config.addDefault("Names.Space.Enable", false);
         config.addDefault("Worlds.Enable", false);
         config.addDefault("Header.Enable", true);
