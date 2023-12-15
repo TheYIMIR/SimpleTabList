@@ -68,11 +68,14 @@ public class NameHandler {
         }
 
         player.setPlayerListName(tpref + gpref + wpref + player.getName() + wsuff + gsuff + tsuff);
-        
-        if (CurrentConfig.getBoolean("Names.Sort.Enable")){
-            String sortOrder = CurrentConfig.getString("Names.Sort.Order");
-            String sortType = CurrentConfig.getString("Names.Sort.Type");
-            boolean isAscending = sortOrder.equalsIgnoreCase("asc");
+
+        sortPlayer(player);
+    }
+
+    private static void sortPlayer(Player player){
+        if (CurrentConfig.getBoolean("Names.Sorting.Enable")){
+            boolean isAscending = CurrentConfig.getBoolean("Names.Sorting.Ascending");
+            String sortType = CurrentConfig.getString("Names.Sorting.Type");
             String playerGroupName = LPFunctionsHandler.getPlayerGroupName(player);
             String teamName = "";
 
