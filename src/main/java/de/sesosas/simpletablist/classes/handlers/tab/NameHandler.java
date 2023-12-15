@@ -11,7 +11,6 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 public class NameHandler {
@@ -25,7 +24,6 @@ public class NameHandler {
         try {
             if (CurrentConfig.getBoolean("Names.Enable")) {
                 List<Player> playerList = new ArrayList<>(Bukkit.getOnlinePlayers());
-                playerList.sort(Comparator.comparingInt(player -> translatePlayerWeight(LPFunctionsHandler.getPlayerGroupWeight(player))));
 
                 for (Player player : playerList) {
                     updatePlayerName(player);
@@ -43,14 +41,6 @@ public class NameHandler {
 
         String gpref = "", gsuff = "", tpref = "", tsuff = "", wpref = "", wsuff = "";
 
-        int playerWeight = translatePlayerWeight(LPFunctionsHandler.getPlayerGroupWeight(player));
-        String s = playerWeight + LPFunctionsHandler.getPlayerGroupName(player);
-
-        Team team = scoreboard.getTeam(s);
-        if (team == null) {
-            team = scoreboard.registerNewTeam(s);
-        }
-
         if (CurrentConfig.getBoolean("Names.LuckPerms.Prefix.Enable")) {
             tpref = StringFormater.Get(LPFunctionsHandler.getPrefix(player), player) + spaces;
         }
@@ -63,8 +53,6 @@ public class NameHandler {
             gpref = StringFormater.Get(CurrentConfig.getString("Names.Global.Prefix"), player) + spaces;
             gsuff = spaces + StringFormater.Get(CurrentConfig.getString("Names.Global.Suffix"), player);
         }
-
-        team.addEntry(player.getName());
 
         if ((boolean) TabWBHandler.GetWorldConfig(player.getWorld(), "Names.Enable") && CurrentConfig.getBoolean("Worlds.Enable")) {
             String prefix = (String) TabWBHandler.GetWorldConfig(player.getWorld(), "Names.Prefix");
@@ -80,18 +68,42 @@ public class NameHandler {
         }
 
         player.setPlayerListName(tpref + gpref + wpref + player.getName() + wsuff + gsuff + tsuff);
+        
+        if (CurrentConfig.getBoolean("Names.Sort.Enable")){
+            String sortOrder = CurrentConfig.getString("Names.Sort.Order");
+            String sortType = CurrentConfig.getString("Names.Sort.Type");
+            boolean isAscending = sortOrder.equalsIgnoreCase("asc");
+            String playerGroupName = LPFunctionsHandler.getPlayerGroupName(player);
+            String teamName = "";
+
+            if (sortType.equalsIgnoreCase("weight")){
+                int playerWeight = LPFunctionsHandler.getPlayerGroupWeight(player);
+                int sortingPrefix = isAscending ? playerWeight : Integer.MAX_VALUE - playerWeight;
+                teamName = String.valueOf(sortingPrefix) + playerGroupName;
+            }
+
+            if (!teamName.isEmpty()){
+                Team team = scoreboard.getTeam(teamName);
+
+                if (team == null) {
+                    team = scoreboard.registerNewTeam(teamName);
+                }
+
+                team.addEntry(player.getName());
+
+                player.setScoreboard(scoreboard);
+            }
+        } else {
+            player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+        }
     }
 
     private static void resetPlayerNames() {
         List<Player> playerList = new ArrayList<>(Bukkit.getOnlinePlayers());
-        playerList.sort(Comparator.comparingInt(player -> translatePlayerWeight(LPFunctionsHandler.getPlayerGroupWeight(player))));
 
         for (Player player : playerList) {
             player.setPlayerListName(player.getName());
+            player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
         }
-    }
-
-    private static int translatePlayerWeight(int weight) {
-        return (weight != 0) ? Integer.MAX_VALUE - weight : Integer.MAX_VALUE;
     }
 }
