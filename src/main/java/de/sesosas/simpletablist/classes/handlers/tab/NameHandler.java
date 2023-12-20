@@ -6,6 +6,7 @@ import de.sesosas.simpletablist.classes.StringFormater;
 import de.sesosas.simpletablist.classes.handlers.lp.LPFunctionsHandler;
 import de.sesosas.simpletablist.classes.handlers.worldbased.TabWBHandler;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
@@ -14,10 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NameHandler {
+    private static Scoreboard mainScoreboard;
     private static Scoreboard scoreboard;
 
     public static void initScoreboard() {
         scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+        mainScoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
     }
 
     public static void Update() {
@@ -54,7 +57,8 @@ public class NameHandler {
             gsuff = spaces + StringFormater.Get(CurrentConfig.getString("Names.Global.Suffix"), player);
         }
 
-        if ((boolean) TabWBHandler.GetWorldConfig(player.getWorld(), "Names.Enable") && CurrentConfig.getBoolean("Worlds.Enable")) {
+        if ((boolean) TabWBHandler.GetWorldConfig(player.getWorld(), "Names.Enable")
+                && CurrentConfig.getBoolean("Worlds.Enable")) {
             String prefix = (String) TabWBHandler.GetWorldConfig(player.getWorld(), "Names.Prefix");
             String suffix = (String) TabWBHandler.GetWorldConfig(player.getWorld(), "Names.Suffix");
 
@@ -67,37 +71,74 @@ public class NameHandler {
             }
         }
 
-        player.setPlayerListName(tpref + gpref + wpref + player.getName() + wsuff + gsuff + tsuff);
+        String playerName = player.getName();
+        Team playerTeam = scoreboard.getEntryTeam(playerName);
+
+        if (playerTeam == null) {
+            playerTeam = mainScoreboard.getEntryTeam(playerName);
+        }
+
+        if (playerTeam != null) {
+            ChatColor teamColor = playerTeam.getColor();
+
+            if (teamColor.isColor()) {
+                playerName = teamColor + playerName + ChatColor.RESET;
+            }
+        }
+
+        player.setPlayerListName(tpref + gpref + wpref + playerName + wsuff + gsuff + tsuff);
 
         sortPlayer(player);
     }
 
-    private static void sortPlayer(Player player){
-        if (CurrentConfig.getBoolean("Names.Sorting.Enable")){
+    private static void assignPlayerToTeam(Player player, String sortType, boolean isAscending) {
+        Team mainTeam = mainScoreboard.getEntryTeam(player.getName());
+        String teamName = "";
+
+        if (sortType.equalsIgnoreCase("weight")) {
+            int playerWeight = LPFunctionsHandler.getPlayerGroupWeight(player);
+            int sortingPrefix = isAscending ? playerWeight : Integer.MAX_VALUE - playerWeight;
+            teamName = String.valueOf(sortingPrefix) + LPFunctionsHandler.getPlayerGroupName(player);
+        }
+
+        if (!teamName.isEmpty()) {
+            if (mainTeam != null) {
+                teamName += "_" + player.getName();
+            }
+
+            Team team = scoreboard.getTeam(teamName);
+
+            if (team == null) {
+                team = scoreboard.registerNewTeam(teamName);
+            }
+
+            team.addEntry(player.getName());
+
+            if (mainTeam != null) {
+                team.setAllowFriendlyFire(mainTeam.allowFriendlyFire());
+                team.setCanSeeFriendlyInvisibles(mainTeam.canSeeFriendlyInvisibles());
+                team.setColor(mainTeam.getColor());
+                team.setPrefix(mainTeam.getPrefix());
+                team.setSuffix(mainTeam.getSuffix());
+    
+                team.setOption(Team.Option.COLLISION_RULE, mainTeam.getOption(Team.Option.COLLISION_RULE));
+                team.setOption(Team.Option.DEATH_MESSAGE_VISIBILITY, mainTeam.getOption(Team.Option.DEATH_MESSAGE_VISIBILITY));
+                team.setOption(Team.Option.NAME_TAG_VISIBILITY, mainTeam.getOption(Team.Option.NAME_TAG_VISIBILITY));
+            }
+
+            player.setScoreboard(scoreboard);
+        }
+
+    }
+
+    private static void sortPlayer(Player player) {
+        if (CurrentConfig.getBoolean("Names.Sorting.Enable")) {
             boolean isAscending = CurrentConfig.getBoolean("Names.Sorting.Ascending");
             String sortType = CurrentConfig.getString("Names.Sorting.Type");
-            String playerGroupName = LPFunctionsHandler.getPlayerGroupName(player);
-            String teamName = "";
 
-            if (sortType.equalsIgnoreCase("weight")){
-                int playerWeight = LPFunctionsHandler.getPlayerGroupWeight(player);
-                int sortingPrefix = isAscending ? playerWeight : Integer.MAX_VALUE - playerWeight;
-                teamName = String.valueOf(sortingPrefix) + playerGroupName;
-            }
-
-            if (!teamName.isEmpty()){
-                Team team = scoreboard.getTeam(teamName);
-
-                if (team == null) {
-                    team = scoreboard.registerNewTeam(teamName);
-                }
-
-                team.addEntry(player.getName());
-
-                player.setScoreboard(scoreboard);
-            }
+            assignPlayerToTeam(player, sortType, isAscending);
         } else {
-            player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+            player.setScoreboard(mainScoreboard);
         }
     }
 
@@ -106,7 +147,7 @@ public class NameHandler {
 
         for (Player player : playerList) {
             player.setPlayerListName(player.getName());
-            player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+            player.setScoreboard(mainScoreboard);
         }
     }
 }
