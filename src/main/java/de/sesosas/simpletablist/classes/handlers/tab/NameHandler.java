@@ -6,6 +6,7 @@ import de.sesosas.simpletablist.classes.StringFormater;
 import de.sesosas.simpletablist.classes.handlers.lp.LPFunctionsHandler;
 import de.sesosas.simpletablist.classes.handlers.worldbased.TabWBHandler;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
@@ -14,10 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NameHandler {
+    private static Scoreboard mainScoreboard;
     private static Scoreboard scoreboard;
 
     public static void initScoreboard() {
         scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+        mainScoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
     }
 
     public static void Update() {
@@ -68,13 +71,27 @@ public class NameHandler {
             }
         }
 
-        player.setPlayerListName(tpref + gpref + wpref + player.getName() + wsuff + gsuff + tsuff);
+        String playerName = player.getName();
+        Team playerTeam = scoreboard.getEntryTeam(playerName);
+
+        if (playerTeam == null) {
+            playerTeam = mainScoreboard.getEntryTeam(playerName);
+        }
+
+        if (playerTeam != null) {
+            ChatColor teamColor = playerTeam.getColor();
+
+            if (teamColor.isColor()) {
+                playerName = teamColor + playerName + ChatColor.RESET;
+            }
+        }
+
+        player.setPlayerListName(tpref + gpref + wpref + playerName + wsuff + gsuff + tsuff);
 
         sortPlayer(player);
     }
 
     private static void assignPlayerToTeam(Player player, String sortType, boolean isAscending) {
-        Scoreboard mainScoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
         Team mainTeam = mainScoreboard.getEntryTeam(player.getName());
         String teamName = "";
 
@@ -121,7 +138,7 @@ public class NameHandler {
 
             assignPlayerToTeam(player, sortType, isAscending);
         } else {
-            player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+            player.setScoreboard(mainScoreboard);
         }
     }
 
@@ -130,7 +147,7 @@ public class NameHandler {
 
         for (Player player : playerList) {
             player.setPlayerListName(player.getName());
-            player.setScoreboard(Bukkit.getScoreboardManager().getMainScoreboard());
+            player.setScoreboard(mainScoreboard);
         }
     }
 }
