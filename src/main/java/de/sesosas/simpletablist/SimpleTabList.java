@@ -99,7 +99,7 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
         });
 
         interval = new IntervalHandler(this, config.getLong("Tab.Refresh.Interval.Time") * 20L);
-        interval.runTaskTimer(this, 0L, SimpleTabList.getPlugin().config.getLong("Tab.Refresh.Interval.Time") * 20L);
+        interval.runTaskTimerAsynchronously(this, 0L, SimpleTabList.getPlugin().config.getLong("Tab.Refresh.Interval.Time") * 20L);
         interval.setEnabled(config.getBoolean("Tab.Refresh.Interval.Enable"));
 
         getServer().getPluginManager().registerEvents(new IEventHandler(), this);

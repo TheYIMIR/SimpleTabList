@@ -3,6 +3,7 @@ package de.sesosas.simpletablist.classes.handlers.events;
 import de.sesosas.simpletablist.SimpleTabList;
 import de.sesosas.simpletablist.classes.handlers.tab.NameHandler;
 import de.sesosas.simpletablist.classes.handlers.tab.TabHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -16,21 +17,20 @@ public class IEventHandler implements Listener  {
 
     @EventHandler
     public void OnPlayerJoin(PlayerJoinEvent event){
-        Thread thread = new Thread(() -> {
+        Thread.startVirtualThread(() -> {
             NameHandler.Update();
             TabHandler.UpdateTab(event.getPlayer());
         });
-        thread.start();
     }
 
     @EventHandler
     public void OnPlayerQuit(PlayerQuitEvent event){
-        Thread thread = new Thread(() -> NameHandler.Update());
-        thread.start();
+        Thread.startVirtualThread(() -> NameHandler.Update());
     }
+
     @EventHandler
     public void OnEntityPortalExitEvent(PlayerTeleportEvent event) {
-        Thread thread = new Thread(() -> {
+        Thread.startVirtualThread(() -> {
             try {
                 TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException e) {
@@ -39,6 +39,5 @@ public class IEventHandler implements Listener  {
             NameHandler.Update();
             TabHandler.UpdateTab(event.getPlayer());
         });
-        thread.start();
     }
 }
