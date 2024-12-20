@@ -3,6 +3,7 @@ package de.sesosas.simpletablist;
 import de.sesosas.simpletablist.classes.commands.ReloadCommand;
 import de.sesosas.simpletablist.classes.handlers.events.IEventHandler;
 import de.sesosas.simpletablist.classes.handlers.internal.IntervalHandler;
+import de.sesosas.simpletablist.classes.handlers.internal.MessageHandler;
 import de.sesosas.simpletablist.classes.handlers.spigot.UpdateHandler;
 import de.sesosas.simpletablist.classes.handlers.tab.NameHandler;
 import de.sesosas.simpletablist.classes.handlers.worldbased.TabWBHandler;
@@ -104,7 +105,7 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
 
         getServer().getPluginManager().registerEvents(new IEventHandler(), this);
         getCommand("stl-reload").setExecutor(new ReloadCommand());
-        System.out.println("Simple TabList has started!");
+        MessageHandler.log("Simple TabList has started!");
     }
 
     private <T extends LuckPermsEvent> void onNodeAddEvent(T t) {

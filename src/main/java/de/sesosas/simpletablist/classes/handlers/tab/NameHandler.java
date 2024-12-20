@@ -3,6 +3,7 @@ package de.sesosas.simpletablist.classes.handlers.tab;
 import de.sesosas.simpletablist.SimpleTabList;
 import de.sesosas.simpletablist.classes.CurrentConfig;
 import de.sesosas.simpletablist.classes.StringFormater;
+import de.sesosas.simpletablist.classes.handlers.internal.MessageHandler;
 import de.sesosas.simpletablist.classes.handlers.lp.LPFunctionsHandler;
 import de.sesosas.simpletablist.classes.handlers.worldbased.TabWBHandler;
 import org.bukkit.Bukkit;
@@ -35,7 +36,7 @@ public class NameHandler {
                 resetPlayerNames();
             }
         } catch (Exception e) {
-            System.out.println(e);
+            MessageHandler.log(e);
         }
     }
 

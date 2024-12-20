@@ -1,12 +1,11 @@
 package de.sesosas.simpletablist.classes;
 
 import de.sesosas.simpletablist.SimpleTabList;
+import de.sesosas.simpletablist.classes.handlers.internal.MessageHandler;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 
-import javax.naming.spi.DirectoryManager;
 import java.io.File;
 import java.io.IOException;
 
@@ -60,7 +59,7 @@ public class CustomConfig {
         try{
             this.customFile.save(this.file);
         }catch (IOException e){
-            System.out.println("Couldn't save file");
+            MessageHandler.log("Couldn't save file");
         }
         return this.customFile;
     }
@@ -73,7 +72,7 @@ public class CustomConfig {
         try{
             this.customFile.save(this.file);
         }catch (IOException e){
-            System.out.println("Couldn't save file");
+            MessageHandler.log("Couldn't save file");
         }
     }
 

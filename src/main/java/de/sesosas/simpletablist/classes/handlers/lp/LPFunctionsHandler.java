@@ -1,6 +1,7 @@
 package de.sesosas.simpletablist.classes.handlers.lp;
 
 import de.sesosas.simpletablist.classes.StringFormater;
+import de.sesosas.simpletablist.classes.handlers.internal.MessageHandler;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import net.luckperms.api.cacheddata.CachedMetaData;
@@ -27,7 +28,7 @@ public class LPFunctionsHandler {
             }
         }
         else{
-            System.out.println("Didn't found LuckPerms which is necessary for this Plugin!");
+            MessageHandler.log("Didn't found LuckPerms which is necessary for this Plugin!");
         }
         return null;
     }
@@ -43,7 +44,7 @@ public class LPFunctionsHandler {
             }
         }
         else{
-            System.out.println("Didn't found LuckPerms which is necessary for this Plugin!");
+            MessageHandler.log("Didn't found LuckPerms which is necessary for this Plugin!");
         }
         return "";
     }

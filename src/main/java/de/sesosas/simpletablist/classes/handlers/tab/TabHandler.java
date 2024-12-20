@@ -2,6 +2,7 @@ package de.sesosas.simpletablist.classes.handlers.tab;
 
 import de.sesosas.simpletablist.classes.CurrentConfig;
 import de.sesosas.simpletablist.classes.StringFormater;
+import de.sesosas.simpletablist.classes.handlers.internal.MessageHandler;
 import de.sesosas.simpletablist.classes.handlers.worldbased.TabWBHandler;
 import org.bukkit.entity.Player;
 
@@ -22,8 +23,8 @@ public class TabHandler {
                 updateTabForWorld(player, headerContent, footerContent);
             }
         } catch (Exception e) {
-            System.out.println("Found an error at Header or Footer config section! Please make sure there are lists with content!");
-            System.out.println(e);
+            MessageHandler.log("Found an error at Header or Footer config section! Please make sure there are lists with content!");
+            MessageHandler.log(e);
         }
     }
 

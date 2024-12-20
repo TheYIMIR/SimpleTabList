@@ -1,5 +1,6 @@
 package de.sesosas.simpletablist.classes.handlers.internal;
 
+import de.sesosas.simpletablist.SimpleTabList;
 import de.sesosas.simpletablist.classes.CurrentConfig;
 import de.sesosas.simpletablist.classes.StringFormater;
 import net.md_5.bungee.api.ChatMessageType;
@@ -17,4 +18,13 @@ public class MessageHandler {
             player.sendMessage(prefix + " " + StringFormater.Get(text, player));
         }
     }
+
+    public static void log(String message) {
+        SimpleTabList.getPlugin().getLogger().info(message);
+    }
+
+    public static void log(Object object) {
+        SimpleTabList.getPlugin().getLogger().info(object.toString());
+    }
+
 }
