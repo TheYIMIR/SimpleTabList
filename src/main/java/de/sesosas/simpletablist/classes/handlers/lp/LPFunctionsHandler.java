@@ -16,38 +16,6 @@ import java.util.OptionalInt;
 
 public class LPFunctionsHandler {
 
-    public static String getPrefix(Player player){
-        RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
-        if (provider != null) {
-            LuckPerms api = provider.getProvider();
-            CachedMetaData metaData = api.getPlayerAdapter(Player.class).getMetaData(player);
-
-            if(metaData.getPrefix() != null && !metaData.getPrefix().equalsIgnoreCase("") && !metaData.getPrefix().equalsIgnoreCase("null")) {
-                return StringFormater.Get(metaData.getPrefix(), player);
-            }
-        }
-        else{
-            System.out.println("Didn't found LuckPerms which is necessary for this Plugin!");
-        }
-        return null;
-    }
-
-    public static String getSuffix(Player player) {
-        RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
-        if (provider != null) {
-            LuckPerms api = provider.getProvider();
-            CachedMetaData metaData = api.getPlayerAdapter(Player.class).getMetaData(player);
-
-            if(metaData.getSuffix() != null && !metaData.getSuffix().equalsIgnoreCase("") && !metaData.getSuffix().equalsIgnoreCase("null")){
-                return StringFormater.Get(metaData.getSuffix(), player);
-            }
-        }
-        else{
-            System.out.println("Didn't found LuckPerms which is necessary for this Plugin!");
-        }
-        return "";
-    }
-
     public static int getPlayerGroupWeight(Player player) {
         User user = LuckPermsProvider.get().getUserManager().getUser(player.getUniqueId());
         if (user != null) {

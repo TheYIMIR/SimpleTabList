@@ -1,6 +1,7 @@
 package de.sesosas.simpletablist.classes;
 
 import de.sesosas.simpletablist.SimpleTabList;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.List;
 

@@ -6,7 +6,7 @@
 
     <groupId>de.sesosas</groupId>
     <artifactId>SimpleTabList</artifactId>
-    <version>4.1</version>
+    <version>4.3</version>
     <packaging>jar</packaging>
 
     <name>SimpleTabList</name>

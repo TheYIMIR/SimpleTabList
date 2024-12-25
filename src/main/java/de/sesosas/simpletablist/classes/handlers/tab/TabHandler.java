@@ -3,15 +3,17 @@ package de.sesosas.simpletablist.classes.handlers.tab;
 import de.sesosas.simpletablist.classes.CurrentConfig;
 import de.sesosas.simpletablist.classes.StringFormater;
 import de.sesosas.simpletablist.classes.handlers.worldbased.TabWBHandler;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 import static de.sesosas.simpletablist.classes.handlers.tab.AnimationHandler.convertAnimatedText;
 
 public class TabHandler {
 
-    public static void UpdateTab(Player player) {
+    public static synchronized void UpdateTab(Player player) {
         try {
             if (!CurrentConfig.getBoolean("Worlds.Enable")) {
                 updateTabForWorld(player, (List<String>) CurrentConfig.getList("Header.Content"), (List<String>) CurrentConfig.getList("Footer.Content"));
@@ -22,8 +24,8 @@ public class TabHandler {
                 updateTabForWorld(player, headerContent, footerContent);
             }
         } catch (Exception e) {
-            System.out.println("Found an error at Header or Footer config section! Please make sure there are lists with content!");
-            System.out.println(e);
+            Bukkit.getLogger().warning("Found an error at Header or Footer config section! Please make sure there are lists with content!");
+            Bukkit.getLogger().warning((Supplier<String>) e);
         }
     }
 

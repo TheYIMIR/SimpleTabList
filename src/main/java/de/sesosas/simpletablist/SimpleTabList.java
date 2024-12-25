@@ -5,6 +5,7 @@ import de.sesosas.simpletablist.classes.handlers.events.IEventHandler;
 import de.sesosas.simpletablist.classes.handlers.internal.IntervalHandler;
 import de.sesosas.simpletablist.classes.handlers.spigot.UpdateHandler;
 import de.sesosas.simpletablist.classes.handlers.tab.NameHandler;
+import de.sesosas.simpletablist.classes.handlers.tab.TabHandler;
 import de.sesosas.simpletablist.classes.handlers.worldbased.TabWBHandler;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.event.EventBus;
@@ -14,6 +15,7 @@ import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SingleLineChart;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -45,15 +47,12 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
         java.lang.String[] footerString = new java.lang.String[] {"This is a footer!", "This is footer line 2!"};
 
         config.addDefault("Names.Enable", true);
-        config.addDefault("Names.LuckPerms.Prefix.Enable", true);
-        config.addDefault("Names.LuckPerms.Suffix.Enable", true);
         config.addDefault("Names.Global.Enable", false);
         config.addDefault("Names.Global.Prefix", "");
         config.addDefault("Names.Global.Suffix", "");
         config.addDefault("Names.Sorting.Enable", true);
         config.addDefault("Names.Sorting.Type", "weight");
         config.addDefault("Names.Sorting.Ascending", true);
-        config.addDefault("Names.Space.Enable", false);
         config.addDefault("Worlds.Enable", false);
         config.addDefault("Header.Enable", true);
         config.addDefault("Header.Content", headerString);
@@ -81,7 +80,7 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
             LuckPerms luckPerms = provider.getProvider();
             EventBus eventBus = luckPerms.getEventBus();
 
-            eventBus.subscribe(this.plugin, NodeAddEvent.class, this::onNodeAddEvent);
+            eventBus.subscribe(plugin, NodeAddEvent.class, this::onNodeAddEvent);
         }
 
         if(config.getBoolean("bstats.Enable")){
@@ -98,13 +97,35 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
             }
         });
 
-        interval = new IntervalHandler(this, config.getLong("Tab.Refresh.Interval.Time") * 20L);
-        interval.runTaskTimer(this, 0L, SimpleTabList.getPlugin().config.getLong("Tab.Refresh.Interval.Time") * 20L);
-        interval.setEnabled(config.getBoolean("Tab.Refresh.Interval.Enable"));
+        Runnable task = () -> {
+            NameHandler.Update();
+            AnimationHandler.frameIndex++;
+
+            List<Player> playerList = new ArrayList<>(Bukkit.getOnlinePlayers());
+            for (Player player : playerList) {
+                TabHandler.UpdateTab(player);
+            }
+        };
+
+        long intervalTicks = config.getLong("Tab.Refresh.Interval.Time") * 20L;
+
+        IntervalHandler intervalHandler = new IntervalHandler(task, intervalTicks);
+
+        if (config.getBoolean("Tab.Refresh.Interval.Enable")) {
+            intervalHandler.startInterval();
+        } else {
+            intervalHandler.stopInterval();
+        }
 
         getServer().getPluginManager().registerEvents(new IEventHandler(), this);
         getCommand("stl-reload").setExecutor(new ReloadCommand());
-        System.out.println("Simple TabList has started!");
+
+        Bukkit.getLogger().info("Simple TabList has started!");
+    }
+
+    @Override
+    public void onDisable(){
+
     }
 
     private <T extends LuckPermsEvent> void onNodeAddEvent(T t) {

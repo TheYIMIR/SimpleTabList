@@ -1,17 +1,8 @@
 package de.sesosas.simpletablist.classes.handlers.tab;
 
-import de.sesosas.simpletablist.SimpleTabList;
 import de.sesosas.simpletablist.classes.CustomConfig;
-import de.sesosas.simpletablist.classes.StringFormater;
-import org.bukkit.ChatColor;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import java.io.File;
-import java.lang.reflect.Array;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,21 +11,17 @@ public class AnimationHandler {
     private static FileConfiguration animationsConfig = null;
     public static int frameIndex = 0;
 
-    public static void GenerateAnimationExample(){
-        CustomConfig cf = null;
-        FileConfiguration con = null;
-        if (!new CustomConfig().exist("animations")) {
-            cf = new CustomConfig().setup("animations");
-            con = cf.get();
+    public static void GenerateAnimationExample() {
+        String configPath = "animations";
+        CustomConfig cf = new CustomConfig().setup(configPath);
+        if (!cf.exist(configPath)) {
+            FileConfiguration con = cf.get();
+            String[] animArray = new String[]{"Frame 1", "Frame 2", "Frame 3"};
+            con.addDefault("animations.0", animArray);
+            con.options().copyDefaults(true);
+            cf.save();
         }
-        else{
-            con = new CustomConfig().get("animations");
-        }
-        java.lang.String[] animarray = new java.lang.String[]{"Frame 1", "Frame 2", "Frame 3"};
-        con.addDefault("animations.0", animarray);
-        con.options().copyDefaults(true);
-        animationsConfig = con;
-        if(cf != null) cf.save();
+        animationsConfig = cf.get();
     }
 
     public static String convertAnimatedText(String message) {
@@ -49,9 +36,7 @@ public class AnimationHandler {
         }
 
         matcher.appendTail(buffer);
-        String formattedMessage = buffer.toString();
-
-        return formattedMessage;
+        return buffer.toString();
     }
 
     private static String getAnimatedText(String animationId) {
@@ -69,8 +54,8 @@ public class AnimationHandler {
     }
 
     public static void loadAnimationsConfig() {
-        CustomConfig cf = new CustomConfig().setup("animations");
-        FileConfiguration con = cf.get();
-        animationsConfig = con;
+        String configPath = "animations";
+        CustomConfig cf = new CustomConfig().setup(configPath);
+        animationsConfig = cf.get();
     }
 }

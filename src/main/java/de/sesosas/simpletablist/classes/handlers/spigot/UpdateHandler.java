@@ -26,7 +26,7 @@ public class UpdateHandler {
                     consumer.accept(scanner.next());
                 }
             } catch (IOException exception) {
-                plugin.getLogger().info("Unable to check for updates: " + exception.getMessage());
+                Bukkit.getLogger().info("Unable to check for updates: " + exception.getMessage());
             }
         });
     }
