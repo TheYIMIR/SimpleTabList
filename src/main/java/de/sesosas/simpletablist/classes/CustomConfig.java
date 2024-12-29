@@ -33,6 +33,18 @@ public class CustomConfig {
         return this.customFile;
     }
 
+    public boolean isEmpty() {
+        if (this.file == null || !this.file.exists()) {
+            return true;
+        }
+        try {
+            return this.file.length() == 0;
+        } catch (Exception e) {
+            Bukkit.getLogger().warning("Error checking if file is empty: " + this.file.getName());
+            return true;
+        }
+    }
+
     public boolean exist(String path) {
         this.file = new File(Bukkit.getServer().getPluginManager().getPlugin(SimpleTabList.getPlugin().getName()).getDataFolder(), path + ".yml");
         return this.file.exists();

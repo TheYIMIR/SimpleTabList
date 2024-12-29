@@ -39,7 +39,12 @@ public class NameHandler {
     }
 
     private static void updatePlayerName(Player player) {
-        player.setPlayerListName(StringFormater.Get(PermissionsHandler.getPermissionString(player, "stl.format."), player));
+        if(PermissionsHandler.getPermissionString(player, "stl.format.") != null) {
+            player.setPlayerListName(StringFormater.Get(PermissionsHandler.getPermissionString(player, "stl.format."), player));
+        }
+        else{
+            player.setPlayerListName(StringFormater.Get(CurrentConfig.getString("Names.Format.Default"), player));
+        }
 
         sortPlayer(player);
     }

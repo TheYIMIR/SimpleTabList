@@ -12,12 +12,14 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.bukkit.ChatColor.COLOR_CHAR;
+
 public class StringFormater {
 
-    private static final Pattern HEX_PATTERN = Pattern.compile("#[a-fA-F0-9]{6}");
+    private static final Pattern HEX_PATTERN = Pattern.compile("&#(\\w{5}[0-9a-f])");
 
     private static String ph(String text) {
-        return "{" + text + "}";
+        return "[" + text + "]";
     }
 
     public static String Get(String text, Player player) {
@@ -25,14 +27,13 @@ public class StringFormater {
 
         String result = text;
 
-        // Replace placeholders using PlaceholderAPI if available
+        result = result.replace("stl.format.", "");
+
+        result = result.replace(ph("player_name"), player.getName());
+
         if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null) {
             result = PlaceholderAPI.setPlaceholders(player, result);
         }
-
-        // Replace custom placeholders
-        result = result.replace(ph("player_name"), player.getDisplayName());
-        result = result.replace("stl.format.", "");
 
         if (CurrentConfig.getBoolean("Worlds.Enable")) {
             String worldPrefix = (String) TabWBHandler.GetWorldConfig(player.getWorld(), "Names.Prefix");
@@ -48,7 +49,6 @@ public class StringFormater {
             result = result.replace(ph("global_suffix"), globalSuffix != null ? globalSuffix : "");
         }
 
-        // Replace player stats placeholders
         DecimalFormat df = new DecimalFormat();
         df.setMaximumFractionDigits(2);
         result = result.replace(ph("player_health"), df.format(Objects.requireNonNull(player).getHealth()));
@@ -57,30 +57,25 @@ public class StringFormater {
         result = result.replace(ph("player_lvl"), Integer.toString(player.getLevel()));
         result = result.replace(ph("player_gamemode"), player.getGameMode().toString());
 
-        // Process HEX codes
         result = hex(result);
 
         return result;
     }
 
-    // Process HEX color codes
     public static String hex(String message) {
         Matcher matcher = HEX_PATTERN.matcher(message);
-        StringBuffer buffer = new StringBuffer();
+        StringBuffer buffer = new StringBuffer(message.length() + 4 * 8);
 
-        while (matcher.find()) {
-            String hexCode = matcher.group();
-            String replaceSharp = hexCode.replace('#', 'x');
-
-            StringBuilder builder = new StringBuilder();
-            for (char c : replaceSharp.toCharArray()) {
-                builder.append("&").append(c);
-            }
-
-            matcher.appendReplacement(buffer, builder.toString());
+        while (matcher.find())
+        {
+            String group = matcher.group(1);
+            matcher.appendReplacement(buffer, COLOR_CHAR + "x"
+                    + COLOR_CHAR + group.charAt(0) + COLOR_CHAR + group.charAt(1)
+                    + COLOR_CHAR + group.charAt(2) + COLOR_CHAR + group.charAt(3)
+                    + COLOR_CHAR + group.charAt(4) + COLOR_CHAR + group.charAt(5)
+            );
         }
-        matcher.appendTail(buffer);
 
-        return ChatColor.translateAlternateColorCodes('&', buffer.toString());
+        return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
     }
 }

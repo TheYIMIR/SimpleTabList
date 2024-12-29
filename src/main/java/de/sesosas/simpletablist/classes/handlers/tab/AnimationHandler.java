@@ -1,8 +1,12 @@
 package de.sesosas.simpletablist.classes.handlers.tab;
 
+import de.sesosas.simpletablist.SimpleTabList;
 import de.sesosas.simpletablist.classes.CustomConfig;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,12 +18,20 @@ public class AnimationHandler {
     public static void GenerateAnimationExample() {
         String configPath = "animations";
         CustomConfig cf = new CustomConfig().setup(configPath);
-        if (!cf.exist(configPath)) {
+
+        if (cf.isEmpty() || !cf.exist(configPath)) {
             FileConfiguration con = cf.get();
             String[] animArray = new String[]{"Frame 1", "Frame 2", "Frame 3"};
-            con.addDefault("animations.0", animArray);
-            con.options().copyDefaults(true);
-            cf.save();
+
+            con.set("animations.0", animArray);
+
+            try {
+                con.save(new File(Bukkit.getServer().getPluginManager()
+                        .getPlugin(SimpleTabList.getPlugin().getName()).getDataFolder(), configPath + ".yml"));
+            } catch (IOException e) {
+                Bukkit.getLogger().severe("Error saving animations configuration.");
+                e.printStackTrace();
+            }
         }
         animationsConfig = cf.get();
     }

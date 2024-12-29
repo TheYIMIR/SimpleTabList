@@ -47,6 +47,7 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
         java.lang.String[] footerString = new java.lang.String[] {"This is a footer!", "This is footer line 2!"};
 
         config.addDefault("Names.Enable", true);
+        config.addDefault("Names.Format.Default", "%luckperms_prefix% &f[player_name] %luckperms_suffix%");
         config.addDefault("Names.Global.Enable", false);
         config.addDefault("Names.Global.Prefix", "");
         config.addDefault("Names.Global.Suffix", "");
