@@ -1,25 +1,24 @@
-package de.sesosas.simpletablist.classes.handlers.tab;
+package de.sesosas.simpletablist.classes.scoreboard;
 
-import de.sesosas.simpletablist.classes.CurrentConfig;
-import de.sesosas.simpletablist.classes.StringFormater;
-import de.sesosas.simpletablist.classes.handlers.worldbased.TabWBHandler;
+import de.sesosas.simpletablist.api.utils.StringUtil;
+import de.sesosas.simpletablist.api.utils.WorldUtil;
+import de.sesosas.simpletablist.classes.AnimationClass;
+import de.sesosas.simpletablist.config.CurrentConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.util.List;
 import java.util.function.Supplier;
 
-import static de.sesosas.simpletablist.classes.handlers.tab.AnimationHandler.convertAnimatedText;
+public class DetailsClass {
 
-public class TabHandler {
-
-    public static synchronized void UpdateTab(Player player) {
+    public static synchronized void updateTab(Player player) {
         try {
             if (!CurrentConfig.getBoolean("Worlds.Enable")) {
                 updateTabForWorld(player, (List<String>) CurrentConfig.getList("Header.Content"), (List<String>) CurrentConfig.getList("Footer.Content"));
             } else {
-                List<String> headerContent = (List<String>) TabWBHandler.GetWorldConfig(player.getWorld(), "Header.Content");
-                List<String> footerContent = (List<String>) TabWBHandler.GetWorldConfig(player.getWorld(), "Footer.Content");
+                List<String> headerContent = (List<String>) WorldUtil.GetWorldConfig(player.getWorld(), "Header.Content");
+                List<String> footerContent = (List<String>) WorldUtil.GetWorldConfig(player.getWorld(), "Footer.Content");
 
                 updateTabForWorld(player, headerContent, footerContent);
             }
@@ -38,10 +37,10 @@ public class TabHandler {
         if (CurrentConfig.getBoolean(section + ".Enable") && contentList != null) {
             String contentString = buildContentString(contentList, isHeader);
             if(isHeader){
-                player.setPlayerListHeader(StringFormater.Get(convertAnimatedText(contentString), player));
+                player.setPlayerListHeader(StringUtil.Convert(AnimationClass.convertAnimatedText(contentString), player));
             }
             else{
-                player.setPlayerListFooter(StringFormater.Get(convertAnimatedText(contentString), player));
+                player.setPlayerListFooter(StringUtil.Convert(AnimationClass.convertAnimatedText(contentString), player));
             }
         }
         else{

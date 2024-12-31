@@ -1,4 +1,4 @@
-package de.sesosas.simpletablist.classes.handlers.spigot;
+package de.sesosas.simpletablist.classes;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -9,12 +9,12 @@ import java.net.URL;
 import java.util.Scanner;
 import java.util.function.Consumer;
 
-public class UpdateHandler {
+public class UpdateClass {
 
     private final JavaPlugin plugin;
     private final int resourceId;
 
-    public UpdateHandler(JavaPlugin plugin, int resourceId) {
+    public UpdateClass(JavaPlugin plugin, int resourceId) {
         this.plugin = plugin;
         this.resourceId = resourceId;
     }

@@ -1,20 +1,15 @@
-package de.sesosas.simpletablist.classes.handlers.lp;
+package de.sesosas.simpletablist.api.luckperms;
 
 import net.luckperms.api.LuckPerms;
-import net.luckperms.api.cacheddata.CachedMetaData;
-import net.luckperms.api.cacheddata.CachedPermissionData;
-import net.luckperms.api.model.data.DataType;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.Node;
-import net.luckperms.api.node.types.PermissionNode;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
 import java.util.Set;
-import java.util.UUID;
 
-public class PermissionsHandler {
+public class Permission {
 
     public static String getPermissionString(Player player, String permission) {
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
@@ -38,8 +33,6 @@ public class PermissionsHandler {
         return null;
     }
 
-    /*
-    //Depracted
     public static boolean hasPermission(Player player, String permission) {
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
         if (provider != null) {
@@ -89,5 +82,4 @@ public class PermissionsHandler {
             }
         }
     }
-    */
 }

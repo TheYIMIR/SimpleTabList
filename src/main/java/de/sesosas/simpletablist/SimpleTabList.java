@@ -1,12 +1,14 @@
 package de.sesosas.simpletablist;
 
-import de.sesosas.simpletablist.classes.commands.ReloadCommand;
-import de.sesosas.simpletablist.classes.handlers.events.IEventHandler;
-import de.sesosas.simpletablist.classes.handlers.internal.IntervalHandler;
-import de.sesosas.simpletablist.classes.handlers.spigot.UpdateHandler;
-import de.sesosas.simpletablist.classes.handlers.tab.NameHandler;
-import de.sesosas.simpletablist.classes.handlers.tab.TabHandler;
-import de.sesosas.simpletablist.classes.handlers.worldbased.TabWBHandler;
+import de.sesosas.simpletablist.api.classes.AInterval;
+import de.sesosas.simpletablist.api.utils.ThreadUtil;
+import de.sesosas.simpletablist.api.utils.WorldUtil;
+import de.sesosas.simpletablist.classes.UpdateClass;
+import de.sesosas.simpletablist.classes.scoreboard.NamesClass;
+import de.sesosas.simpletablist.command.ReloadCommand;
+import de.sesosas.simpletablist.event.IEventHandler;
+import de.sesosas.simpletablist.classes.ScoreboardClass;
+import de.sesosas.simpletablist.interval.AnimatedText;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.event.EventBus;
 import net.luckperms.api.event.LuckPermsEvent;
@@ -15,7 +17,6 @@ import org.bstats.bukkit.Metrics;
 import org.bstats.charts.SingleLineChart;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,15 +24,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.sesosas.simpletablist.classes.handlers.tab.AnimationHandler;
+import de.sesosas.simpletablist.classes.AnimationClass;
 
 public final class SimpleTabList extends JavaPlugin implements Listener {
 
     public FileConfiguration config = getConfig();
 
     private static SimpleTabList plugin;
-
-    public static IntervalHandler interval;
 
     public static SimpleTabList getPlugin() {
         return plugin;
@@ -41,7 +40,7 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
     public void onEnable() {
         plugin = this;
 
-        NameHandler.initScoreboard();
+        NamesClass.initScoreboard();
 
         java.lang.String[] headerString = new java.lang.String[]{"This is a header and animation {animation:0}!", "You: %player_name%!"};
         java.lang.String[] footerString = new java.lang.String[] {"This is a footer!", "This is footer line 2!"};
@@ -73,8 +72,9 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
         headerComment.add("Tab Refresh Interval Time is calculated in seconds.\n");
         config.options().header(headerComment.toString().replace("[", "").replace("]", "").replace(", ", ""));
         saveConfig();
-        TabWBHandler.GenerateWorldConfig();
-        AnimationHandler.GenerateAnimationExample();
+
+        WorldUtil.GenerateWorldConfig();
+        AnimationClass.GenerateAnimationExample();
 
         RegisteredServiceProvider<LuckPerms> provider = Bukkit.getServicesManager().getRegistration(LuckPerms.class);
         if (provider != null) {
@@ -90,7 +90,7 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
             metrics.addCustomChart(new SingleLineChart("banned", () -> Bukkit.getBannedPlayers().size()));
         }
 
-        new UpdateHandler(this, 101989).getVersion(version -> {
+        new UpdateClass(this, 101989).getVersion(version -> {
             if (Float.parseFloat(this.getDescription().getVersion()) < Float.parseFloat(version)) {
                 getLogger().info("There is a new update available.");
             } else {
@@ -98,25 +98,10 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
             }
         });
 
-        Runnable task = () -> {
-            NameHandler.Update();
-            AnimationHandler.frameIndex++;
+        //Initialize
+        new AnimatedText();
 
-            List<Player> playerList = new ArrayList<>(Bukkit.getOnlinePlayers());
-            for (Player player : playerList) {
-                TabHandler.UpdateTab(player);
-            }
-        };
-
-        long intervalTicks = config.getLong("Tab.Refresh.Interval.Time") * 20L;
-
-        IntervalHandler intervalHandler = new IntervalHandler(task, intervalTicks);
-
-        if (config.getBoolean("Tab.Refresh.Interval.Enable")) {
-            intervalHandler.startInterval();
-        } else {
-            intervalHandler.stopInterval();
-        }
+        AInterval.startAllIntervals(this);
 
         getServer().getPluginManager().registerEvents(new IEventHandler(), this);
         getCommand("stl-reload").setExecutor(new ReloadCommand());
@@ -126,10 +111,11 @@ public final class SimpleTabList extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable(){
-
+        ThreadUtil.forceShutdown();
+        AInterval.stopAllIntervals();
     }
 
     private <T extends LuckPermsEvent> void onNodeAddEvent(T t) {
-        NameHandler.Update();
+        ScoreboardClass.Update();
     }
 }

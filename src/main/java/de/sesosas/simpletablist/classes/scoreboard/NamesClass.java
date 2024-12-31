@@ -1,49 +1,31 @@
-package de.sesosas.simpletablist.classes.handlers.tab;
+package de.sesosas.simpletablist.classes.scoreboard;
 
-import de.sesosas.simpletablist.classes.CurrentConfig;
-import de.sesosas.simpletablist.classes.StringFormater;
-import de.sesosas.simpletablist.classes.handlers.lp.LPFunctionsHandler;
-import de.sesosas.simpletablist.classes.handlers.lp.PermissionsHandler;
+import de.sesosas.simpletablist.api.luckperms.Group;
+import de.sesosas.simpletablist.api.luckperms.Permission;
+import de.sesosas.simpletablist.api.utils.StringUtil;
+import de.sesosas.simpletablist.config.CurrentConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
-public class NameHandler {
-    private static Scoreboard mainScoreboard;
-    private static Scoreboard scoreboard;
+public class NamesClass {
+    private static org.bukkit.scoreboard.Scoreboard mainScoreboard;
+    private static org.bukkit.scoreboard.Scoreboard scoreboard;
 
     public static void initScoreboard() {
         scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         mainScoreboard = Bukkit.getScoreboardManager().getMainScoreboard();
     }
 
-    public static synchronized void Update() {
-        try {
-            if (CurrentConfig.getBoolean("Names.Enable")) {
-                List<Player> playerList = new ArrayList<>(Bukkit.getOnlinePlayers());
-
-                for (Player player : playerList) {
-                    updatePlayerName(player);
-                }
-            } else {
-                resetPlayerNames();
-            }
-        } catch (Exception e) {
-            Bukkit.getLogger().warning((Supplier<String>) e);
-        }
-    }
-
-    private static void updatePlayerName(Player player) {
-        if(PermissionsHandler.getPermissionString(player, "stl.format.") != null) {
-            player.setPlayerListName(StringFormater.Get(PermissionsHandler.getPermissionString(player, "stl.format."), player));
+    public static void updatePlayerName(Player player) {
+        if(Permission.getPermissionString(player, "stl.format.") != null) {
+            player.setPlayerListName(StringUtil.Convert(Permission.getPermissionString(player, "stl.format."), player));
         }
         else{
-            player.setPlayerListName(StringFormater.Get(CurrentConfig.getString("Names.Format.Default"), player));
+            player.setPlayerListName(StringUtil.Convert(CurrentConfig.getString("Names.Format.Default"), player));
         }
 
         sortPlayer(player);
@@ -65,9 +47,9 @@ public class NameHandler {
         String teamName = "";
 
         if (sortType.equalsIgnoreCase("weight")) {
-            int playerWeight = LPFunctionsHandler.getPlayerGroupWeight(player);
+            int playerWeight = Group.getPlayerGroupWeight(player);
             int sortingPrefix = isAscending ? playerWeight : Integer.MAX_VALUE - playerWeight;
-            teamName = String.valueOf(sortingPrefix) + LPFunctionsHandler.getPlayerGroupName(player);
+            teamName = String.valueOf(sortingPrefix) + Group.getPlayerGroupName(player);
         }
 
         if (!teamName.isEmpty()) {
@@ -100,7 +82,7 @@ public class NameHandler {
 
     }
 
-    private static void resetPlayerNames() {
+    public static void resetPlayerNames() {
         List<Player> playerList = new ArrayList<>(Bukkit.getOnlinePlayers());
 
         for (Player player : playerList) {

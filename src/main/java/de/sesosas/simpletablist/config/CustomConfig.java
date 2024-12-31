@@ -1,4 +1,4 @@
-package de.sesosas.simpletablist.classes;
+package de.sesosas.simpletablist.config;
 
 import de.sesosas.simpletablist.SimpleTabList;
 import org.bukkit.Bukkit;

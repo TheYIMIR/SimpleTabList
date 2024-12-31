@@ -1,10 +1,8 @@
-package de.sesosas.simpletablist.classes;
+package de.sesosas.simpletablist.api.utils;
 
-import de.sesosas.simpletablist.SimpleTabList;
-import de.sesosas.simpletablist.classes.handlers.worldbased.TabWBHandler;
+import de.sesosas.simpletablist.config.CurrentConfig;
 import me.clip.placeholderapi.PlaceholderAPI;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
@@ -14,20 +12,23 @@ import java.util.regex.Pattern;
 
 import static org.bukkit.ChatColor.COLOR_CHAR;
 
-public class StringFormater {
+public class StringUtil {
 
-    private static final Pattern HEX_PATTERN = Pattern.compile("&#(\\w{5}[0-9a-f])");
+    private static final Pattern HEX_PATTERN = Pattern.compile("&#(\\w{5}[0-9A-Fa-f])");
 
     private static String ph(String text) {
         return "[" + text + "]";
     }
 
-    public static String Get(String text, Player player) {
+    public static String Convert(String text, Player player) {
         if (text == null) return null;
 
         String result = text;
 
-        result = result.replace("stl.format.", "");
+        if(result.startsWith("stl.format.")){
+            result = ensureCapitalization(result);
+            result = result.replace("stl.format.", "");
+        }
 
         result = result.replace(ph("player_name"), player.getName());
 
@@ -36,8 +37,8 @@ public class StringFormater {
         }
 
         if (CurrentConfig.getBoolean("Worlds.Enable")) {
-            String worldPrefix = (String) TabWBHandler.GetWorldConfig(player.getWorld(), "Names.Prefix");
-            String worldSuffix = (String) TabWBHandler.GetWorldConfig(player.getWorld(), "Names.Suffix");
+            String worldPrefix = (String) WorldUtil.GetWorldConfig(player.getWorld(), "Names.Prefix");
+            String worldSuffix = (String) WorldUtil.GetWorldConfig(player.getWorld(), "Names.Suffix");
             result = result.replace(ph("world_prefix"), worldPrefix != null ? worldPrefix : "");
             result = result.replace(ph("world_suffix"), worldSuffix != null ? worldSuffix : "");
         }
@@ -76,6 +77,44 @@ public class StringFormater {
             );
         }
 
-        return ChatColor.translateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
+        return customTranslateAlternateColorCodes('&', matcher.appendTail(buffer).toString());
     }
+
+    public static String ensureCapitalization(String text) {
+        Pattern capitalizePattern = Pattern.compile("\\[#(?i)(cap)\\((\\w+)\\)]|\\[#(?i)(capall)\\((\\w+)\\)]");
+        Matcher matcher = capitalizePattern.matcher(text);
+        StringBuffer buffer = new StringBuffer();
+
+        while (matcher.find()) {
+            String capitalized = null;
+
+            if (matcher.group(1) != null) {
+                String word = matcher.group(2);
+                capitalized = word.substring(0, 1).toUpperCase() + word.substring(1);
+            } else if (matcher.group(3) != null) {
+                String word = matcher.group(4);
+                capitalized = word.toUpperCase();
+            }
+
+            // Replace the marker with the processed word
+            matcher.appendReplacement(buffer, capitalized);
+        }
+
+        matcher.appendTail(buffer);
+
+        return buffer.toString();
+    }
+
+
+    public static String customTranslateAlternateColorCodes(char altColorChar, String textToTranslate) {
+        char[] b = textToTranslate.toCharArray();
+        for (int i = 0; i < b.length - 1; i++) {
+            if (b[i] == altColorChar && "0123456789AaBbCcDdEeFfKkLlMmNnOoRrXx".indexOf(b[i + 1]) > -1) {
+                b[i] = COLOR_CHAR;
+                b[i + 1] = Character.toLowerCase(b[i + 1]);
+            }
+        }
+        return new String(b);
+    }
+
 }

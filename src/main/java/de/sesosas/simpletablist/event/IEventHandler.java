@@ -1,8 +1,7 @@
-package de.sesosas.simpletablist.classes.handlers.events;
+package de.sesosas.simpletablist.event;
 
-import de.sesosas.simpletablist.classes.handlers.internal.ThreadHandler;
-import de.sesosas.simpletablist.classes.handlers.tab.NameHandler;
-import de.sesosas.simpletablist.classes.handlers.tab.TabHandler;
+import de.sesosas.simpletablist.api.utils.ThreadUtil;
+import de.sesosas.simpletablist.classes.ScoreboardClass;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -15,27 +14,23 @@ public class IEventHandler implements Listener {
 
     @EventHandler
     public void OnPlayerJoin(PlayerJoinEvent event) {
-        ThreadHandler.submitTask(() -> {
-            NameHandler.Update();
-            TabHandler.UpdateTab(event.getPlayer());
-        });
+        ThreadUtil.submitTask(ScoreboardClass::Update);
     }
 
     @EventHandler
     public void OnPlayerQuit(PlayerQuitEvent event) {
-        ThreadHandler.submitTask(NameHandler::Update);
+        ThreadUtil.submitTask(ScoreboardClass::Update);
     }
 
     @EventHandler
     public void OnEntityPortalExitEvent(PlayerTeleportEvent event) {
-        ThreadHandler.submitTask(() -> {
+        ThreadUtil.submitTask(() -> {
             try {
                 TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            NameHandler.Update();
-            TabHandler.UpdateTab(event.getPlayer());
+            ScoreboardClass.Update();
         });
     }
 }

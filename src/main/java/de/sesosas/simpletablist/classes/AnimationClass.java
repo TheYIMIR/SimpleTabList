@@ -1,7 +1,7 @@
-package de.sesosas.simpletablist.classes.handlers.tab;
+package de.sesosas.simpletablist.classes;
 
 import de.sesosas.simpletablist.SimpleTabList;
-import de.sesosas.simpletablist.classes.CustomConfig;
+import de.sesosas.simpletablist.config.CustomConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class AnimationHandler {
+public class AnimationClass {
     private static final Pattern animationPattern = Pattern.compile("\\{animation:(\\d+)}");
     private static FileConfiguration animationsConfig = null;
     public static int frameIndex = 0;

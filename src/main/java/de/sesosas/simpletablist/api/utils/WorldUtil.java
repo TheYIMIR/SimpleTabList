@@ -1,8 +1,7 @@
-package de.sesosas.simpletablist.classes.handlers.worldbased;
+package de.sesosas.simpletablist.api.utils;
 
 import de.sesosas.simpletablist.SimpleTabList;
-import de.sesosas.simpletablist.classes.CustomConfig;
-import de.sesosas.simpletablist.classes.StringFormater;
+import de.sesosas.simpletablist.config.CustomConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -10,8 +9,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.io.File;
 import java.io.IOException;
 
-public class TabWBHandler {
-
+public class WorldUtil {
     public static void GenerateWorldConfig() {
         for (World world : Bukkit.getWorlds()) {
             String configPath = "worlds/" + world.getName();
