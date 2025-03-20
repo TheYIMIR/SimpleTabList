@@ -7,6 +7,11 @@ description: A TabList which is using LuckPerms Prefix and Suffixes
 depend: [LuckPerms, PlaceholderAPI]
 commands:
   stl-reload:
-    description: Reload the config
+    description: Reload the plugin configurations
     permission: stl.reload
     permission-message: §cYou are not allowed to use this command!
+  sidebar:
+    description: Toggle sidebar visibility
+    permission: stl.sidebar.toggle
+    permission-message: §cYou are not allowed to use this command!
+    aliases: [stl-sidebar, stlsidebar]

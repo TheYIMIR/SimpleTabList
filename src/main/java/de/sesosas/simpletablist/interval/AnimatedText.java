@@ -1,6 +1,5 @@
 package de.sesosas.simpletablist.interval;
 
-import de.sesosas.simpletablist.SimpleTabList;
 import de.sesosas.simpletablist.classes.AnimationClass;
 import de.sesosas.simpletablist.classes.ScoreboardClass;
 import de.sesosas.simpletablist.api.classes.AInterval;
@@ -14,17 +13,33 @@ public class AnimatedText extends AInterval {
     }
 
     @Override
-    public void Init(){
+    public void Init() {
         setIntervalTime(CurrentConfig.getLong("Tab.Refresh.Interval.Time"));
+
+        // Animations must run on the main thread for safety
+        setUseMainThread(true);
     }
 
     @Override
     public void Run() {
-        if(CurrentConfig.getBoolean("Tab.Refresh.Interval.Enable")){
-            Bukkit.getScheduler().runTask(SimpleTabList.getPlugin(), () -> {
-                ScoreboardClass.Update();
-                AnimationClass.frameIndex++;
-            });
+        if (CurrentConfig.getBoolean("Tab.Refresh.Interval.Enable")) {
+            // Update frame index first
+            AnimationClass.frameIndex++;
+
+            // Update scoreboard - this must be on the main thread
+            // because it modifies Bukkit entities
+            ScoreboardClass.Update();
         }
+    }
+
+    @Override
+    public void onStart() {
+        Bukkit.getLogger().info("[SimpleTabList] Animation interval started with period: "
+                + getIntervalTime() + " seconds");
+    }
+
+    @Override
+    public void onStop() {
+        Bukkit.getLogger().info("[SimpleTabList] Animation interval stopped");
     }
 }
